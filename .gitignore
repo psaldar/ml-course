@@ -17,6 +17,7 @@ data/processed/
 # Soluciones: viven en el repo de infra o en un branch/repo privado aparte,
 # nunca en este repo público
 **/solution/
+**/solution.csv
 
 # Entorno
 .env

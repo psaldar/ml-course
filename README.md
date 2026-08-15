@@ -41,10 +41,27 @@ Ver el README de cada assignment para el detalle de la métrica usada.
 
 ## Assignments
 
-- [`prediccion-accidentalidad`](assignments/prediccion-accidentalidad/) —
-  clasificación binaria con clases muy desbalanceadas (~1.5% positivos),
-  sobre el taller "Predicción de accidentalidad". Métrica:
-  `average_precision` (PR-AUC).
+| Assignment | Tipo | Métrica | Soportada hoy por ml-grading-infra |
+|---|---|---|---|
+| [`prediccion-accidentalidad`](assignments/prediccion-accidentalidad/) | Clasificación binaria, ~1.5% positivos | `average_precision` (PR-AUC) | Sí |
+| [`clasificacion-diabetes`](assignments/clasificacion-diabetes/) | Clasificación binaria (Pima Diabetes) | F1-score | Sí |
+| [`deteccion-churn`](assignments/deteccion-churn/) | Clasificación binaria (churn telco) | F1-score | Sí |
+| [`regresion-abalone`](assignments/regresion-abalone/) | Regresión (edad de abalones) | RMSE | Sí |
+| [`recomendador-peliculas`](assignments/recomendador-peliculas/) | Predicción de rating (MovieLens 100k) | RMSE | Sí |
+| [`forecasting-demanda-electrica`](assignments/forecasting-demanda-electrica/) | Series de tiempo | WMAPE | **No** — falta agregar la métrica en `ml-grading-infra` |
+| [`segmentacion-semillas`](assignments/segmentacion-semillas/) | Clustering (seeds dataset) | Adjusted Rand Index | **No** — falta agregar la métrica en `ml-grading-infra` |
+
+Todos siguen el mismo patrón: `train.csv` (con target) + `test.csv` (sin
+target) en cada carpeta, `solution.csv` local (gitignored, nunca se
+publica) con nota para el profesor sobre a dónde debe moverse.
+
+## Notebooks de clase
+
+`notebooks/sesion_01` a `sesion_06` — material de las sesiones (regresión,
+clasificación y validación, árboles/ensambles/desbalance, series de
+tiempo, reducción de dimensionalidad/clustering, sistemas de
+recomendación). `sesion_04` y `sesion_06` incluyen datasets propios
+(bike sharing, MovieLens 100k).
 
 ## Estado actual
 
@@ -54,9 +71,16 @@ Próximos pasos:
       comunicarla a los estudiantes.
 - [ ] Generar API keys del roster con
       `ml-grading-infra/scripts/create_student_keys.py`.
+- [ ] Mover cada `solution.csv` (6 assignments nuevos) al repo privado
+      `ml-grading-infra` una vez esté desplegado — hoy solo existen en
+      local, gitignored, nunca se han subido a ningún repo.
 - [ ] Subir `holdout_labels.csv` de `prediccion-accidentalidad` al bucket
       privado de holdout una vez esté desplegado (con
       `new_assignment.py` o subiéndolo a mano a la ruta que espera
       `assignments/prediccion-accidentalidad/config.yaml`).
-- [ ] Distribuir el SQLite recortado (~1.1GB, no cabe en git) a los
-      estudiantes por el canal que ya usan hoy.
+- [ ] Distribuir el SQLite recortado de `prediccion-accidentalidad`
+      (~1.1GB, no cabe en git) a los estudiantes por el canal que ya usan
+      hoy.
+- [ ] Agregar las métricas `WMAPE` y `adjusted_rand_index` a
+      `ml-grading-infra/src/common/grading.py` (las necesitan
+      `forecasting-demanda-electrica` y `segmentacion-semillas`).
