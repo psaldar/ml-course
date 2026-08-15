@@ -1,0 +1,25 @@
+[project]
+name = "ml-course"
+version = "0.1.0"
+description = "Material y entorno del curso de Machine Learning"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=1.26",
+    "pandas>=2.2",
+    "scikit-learn>=1.5",
+    "matplotlib>=3.9",
+    "jupyter>=1.0",
+    "requests>=2.32",
+    "python-dotenv>=1.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+    "nbstripout>=0.7",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
