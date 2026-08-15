@@ -1,0 +1,16 @@
+# Metadata de referencia para este assignment. El config real que usa la
+# Lambda de grading se sube a S3 (bucket privado de holdout) con
+# ml-grading-infra/scripts/new_assignment.py — este archivo documenta esos
+# mismos valores para que quede claro en este repo qué se está evaluando.
+mode: predictions
+metric: average_precision
+id_col: id
+target_col: target
+holdout_key: holdout/prediccion-accidentalidad/labels.csv
+
+# Parámetros específicos de este assignment (no los usa el backend
+# genérico, quedan aquí como documentación del corte usado).
+train_cutoff_exclusive: "2019-10-01 00:00:00" # primera hora que NO está en train
+test_start: "2019-10-01 00:00:00"
+test_end: "2019-12-31 23:00:00"
+id_format: "{BARRIO}|{TW}" # ej. aguasfrias|2019-10-01 00:00:00

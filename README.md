@@ -39,12 +39,24 @@ Cada assignment sigue el formato "predicciones sobre holdout privado"
 
 Ver el README de cada assignment para el detalle de la métrica usada.
 
+## Assignments
+
+- [`prediccion-accidentalidad`](assignments/prediccion-accidentalidad/) —
+  clasificación binaria con clases muy desbalanceadas (~1.5% positivos),
+  sobre el taller "Predicción de accidentalidad". Métrica:
+  `average_precision` (PR-AUC).
+
 ## Estado actual
 
-Repo recién creado — esqueleto inicial. Próximos pasos:
+Próximos pasos:
 
 - [ ] Desplegar `ml-grading-infra` y poner la URL real en `.env.example` /
       comunicarla a los estudiantes.
-- [ ] Definir el primer módulo y su assignment.
 - [ ] Generar API keys del roster con
       `ml-grading-infra/scripts/create_student_keys.py`.
+- [ ] Subir `holdout_labels.csv` de `prediccion-accidentalidad` al bucket
+      privado de holdout una vez esté desplegado (con
+      `new_assignment.py` o subiéndolo a mano a la ruta que espera
+      `assignments/prediccion-accidentalidad/config.yaml`).
+- [ ] Distribuir el SQLite recortado (~1.1GB, no cabe en git) a los
+      estudiantes por el canal que ya usan hoy.
