@@ -1,0 +1,21 @@
+# Metadata de referencia. El config real que usa la Lambda de grading se
+# sube al bucket privado de holdout (ver ml-grading-infra); este archivo
+# documenta los mismos valores para que quede claro qué se evalúa.
+mode: predictions
+metric: average_precision
+id_col: id
+target_col: target
+holdout_key: holdout/prediccion-accidentalidad-poblado/labels.csv
+
+# Parámetros del reto (documentación; no los consume el backend genérico)
+scope: El Poblado, 22 barrios
+train_end_exclusive: "2019-08-01 00:00:00"
+test_start: "2019-08-01 00:00:00"
+test_end_exclusive: "2019-12-31 00:00:00"
+test_rows: 80256
+test_positive_rate: 0.0201
+id_format: "{BARRIO}|{TW}"
+
+benchmarks:
+  aleatorio: 0.0201
+  profesor: 0.0598

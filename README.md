@@ -43,7 +43,7 @@ Ver el README de cada assignment para el detalle de la métrica usada.
 
 | Assignment | Tipo | Métrica | Soportada hoy por ml-grading-infra |
 |---|---|---|---|
-| [`prediccion-accidentalidad`](assignments/prediccion-accidentalidad/) | Clasificación binaria, ~1.5% positivos | `average_precision` (PR-AUC) | Sí |
+| [`prediccion-accidentalidad-poblado`](assignments/prediccion-accidentalidad-poblado/) | Clasificación binaria, ~2% positivos, split temporal | `average_precision` (PR-AUC) | Sí |
 | [`clasificacion-diabetes`](assignments/clasificacion-diabetes/) | Clasificación binaria (Pima Diabetes) | F1-score | Sí |
 | [`deteccion-churn`](assignments/deteccion-churn/) | Clasificación binaria (churn telco) | F1-score | Sí |
 | [`regresion-abalone`](assignments/regresion-abalone/) | Regresión (edad de abalones) | RMSE | Sí |
@@ -51,9 +51,17 @@ Ver el README de cada assignment para el detalle de la métrica usada.
 | [`forecasting-demanda-electrica`](assignments/forecasting-demanda-electrica/) | Series de tiempo | WMAPE | **No** — falta agregar la métrica en `ml-grading-infra` |
 | [`segmentacion-semillas`](assignments/segmentacion-semillas/) | Clustering (seeds dataset) | Adjusted Rand Index | **No** — falta agregar la métrica en `ml-grading-infra` |
 
-Todos siguen el mismo patrón: `train.csv` (con target) + `test.csv` (sin
-target) en cada carpeta, `solution.csv` local (gitignored, nunca se
-publica) con nota para el profesor sobre a dónde debe moverse.
+La mayoría sigue el patrón `train.csv` (con target) + `test.csv` (sin
+target) en cada carpeta, con `solution.csv` local (gitignored, nunca se
+publica). `prediccion-accidentalidad-poblado` es la excepción: los datos
+son un SQLite de ~85 MB que se distribuye aparte (no cabe en git).
+
+## Leaderboard
+
+Los rankings se publican en una página web pública (la URL sale del
+output `leaderboard_url` de Terraform una vez desplegado
+`ml-grading-infra`). Las entregas siempre se hacen desde la terminal con
+`scripts/submit.py` — la página es solo de consulta.
 
 ## Notebooks de clase
 
@@ -74,13 +82,14 @@ Próximos pasos:
 - [ ] Mover cada `solution.csv` (6 assignments nuevos) al repo privado
       `ml-grading-infra` una vez esté desplegado — hoy solo existen en
       local, gitignored, nunca se han subido a ningún repo.
-- [ ] Subir `holdout_labels.csv` de `prediccion-accidentalidad` al bucket
-      privado de holdout una vez esté desplegado (con
-      `new_assignment.py` o subiéndolo a mano a la ruta que espera
-      `assignments/prediccion-accidentalidad/config.yaml`).
-- [ ] Distribuir el SQLite recortado de `prediccion-accidentalidad`
-      (~1.1GB, no cabe en git) a los estudiantes por el canal que ya usan
-      hoy.
+- [ ] Subir el holdout de `prediccion-accidentalidad-poblado` al bucket
+      privado (ya generado en
+      `Data/PRIVADO_no_distribuir/poblado_holdout_labels.csv`).
+- [ ] Distribuir `Data/reto_poblado/data_accidentes_poblado.sqlite3`
+      (~85 MB) a los estudiantes — la idea es servirlo desde S3 una vez
+      desplegado.
+- [ ] Enviar el benchmark del profesor como submission de referencia
+      (AP = 0.0598) para que aparezca en el leaderboard.
 - [ ] Agregar las métricas `WMAPE` y `adjusted_rand_index` a
       `ml-grading-infra/src/common/grading.py` (las necesitan
       `forecasting-demanda-electrica` y `segmentacion-semillas`).
