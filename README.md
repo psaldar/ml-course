@@ -12,6 +12,11 @@ uv sync                       # instala el entorno (Python 3.12)
 cp .env.example .env          # y completa con la API key que te dé el profesor
 ```
 
+| | |
+|---|---|
+| **Leaderboard** | https://d3qixogk4zgixq.cloudfront.net |
+| **API** | `https://6trg8jthgl.execute-api.us-east-1.amazonaws.com/dev` |
+
 ## Estructura
 
 ```
@@ -75,21 +80,15 @@ recomendación). `sesion_04` y `sesion_06` incluyen datasets propios
 
 Próximos pasos:
 
-- [ ] Desplegar `ml-grading-infra` y poner la URL real en `.env.example` /
-      comunicarla a los estudiantes.
-- [ ] Generar API keys del roster con
-      `ml-grading-infra/scripts/create_student_keys.py`.
+- [x] Desplegar `ml-grading-infra` (hecho: ver URLs arriba).
+- [ ] Generar las API keys del roster real con
+      `ml-grading-infra/scripts/create_student_keys.py` y repartirlas.
 - [ ] Mover cada `solution.csv` (6 assignments nuevos) al repo privado
       `ml-grading-infra` una vez esté desplegado — hoy solo existen en
       local, gitignored, nunca se han subido a ningún repo.
-- [ ] Subir el holdout de `prediccion-accidentalidad-poblado` al bucket
-      privado (ya generado en
-      `Data/PRIVADO_no_distribuir/poblado_holdout_labels.csv`).
-- [ ] Distribuir `Data/reto_poblado/data_accidentes_poblado.sqlite3`
-      (~85 MB) a los estudiantes — la idea es servirlo desde S3 una vez
-      desplegado.
-- [ ] Enviar el benchmark del profesor como submission de referencia
-      (ROC-AUC = 0.7739) para que aparezca en el leaderboard.
+- [x] Subir el holdout al bucket privado.
+- [x] Servir el dataset desde CloudFront (ver el README del assignment).
+- [x] Benchmark del profesor en el leaderboard (ROC-AUC = 0.77393).
 - [ ] Agregar las métricas `WMAPE` y `adjusted_rand_index` a
       `ml-grading-infra/src/common/grading.py` (las necesitan
       `forecasting-demanda-electrica` y `segmentacion-semillas`).
