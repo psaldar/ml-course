@@ -39,6 +39,15 @@ resuelta ahí — necesitas correr tu propio modelo sobre estos pares.
 
 ## Datos
 
+Los datos no están en este repositorio: se descargan una sola vez
+desde el almacenamiento del curso.
+
+```bash
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/train.csv
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/test.csv
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/movies.csv
+```
+
 - `train.csv`: 80,000 interacciones (80% del dataset), con columnas
   `id, user_id, item_id, rating, timestamp`. Úsalo para entrenar tu
   modelo (construir la matriz de utilidad, entrenar la factorización,

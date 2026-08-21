@@ -32,6 +32,14 @@ visto antes, no que reutilices código de la sesión sin pensarlo.
 
 ## Datos
 
+Los datos no están en este repositorio: se descargan una sola vez
+desde el almacenamiento del curso.
+
+```bash
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/clasificacion-diabetes/train.csv
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/clasificacion-diabetes/test.csv
+```
+
 - `train.csv`: datos de entrenamiento (614 filas, 80%), con la columna
   objetivo `class`.
 - `test.csv`: datos de evaluación (154 filas, 20%), **sin** la columna

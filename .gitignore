@@ -9,9 +9,13 @@ __pycache__/
 # Jupyter
 .ipynb_checkpoints/
 
-# Datos grandes o específicos de estudiantes (no versionar)
-data/raw/
-data/processed/
+# Los datos NO se versionan: la única fuente es S3, servida por
+# CloudFront. Cada README trae el comando de descarga.
+assignments/*/train.csv
+assignments/*/test.csv
+assignments/*/movies.csv
+notebooks/*/bike_sharing_data/
+notebooks/*/ml100k_data/
 *.csv.gz
 
 # Soluciones: viven en el repo de infra o en un branch/repo privado aparte,
