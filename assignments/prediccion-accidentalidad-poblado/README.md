@@ -24,7 +24,17 @@ Un SQLite (~85 MB) con tres tablas:
 |---|---|
 | `clima` | Una fila por (barrio, hora) para **todo** 2017-2019. Variables meteorológicas. Es el universo de parejas a considerar. |
 | `accidentes` | Parejas (barrio, hora) donde **sí** hubo al menos un accidente. |
-| `raw_accidentes` | Detalle de cada accidente (clase, gravedad, diseño vial, coordenadas). |
+| `raw_accidentes` | Detalle de cada accidente (clase, gravedad, diseño vial, coordenadas, dirección). |
+
+Los datos vienen **crudos a propósito**. No hay variables de calendario
+pre-calculadas, ni agregados, ni codificaciones: si quieren hora del día,
+día de la semana, mes, festivo o cualquier otra cosa derivada de `TW`,
+las construyen ustedes. Eso es justamente lo que evalúan las secciones
+4.2 y 4.3 del taller.
+
+Tampoco están limpios. Hay formatos inconsistentes, faltantes y al menos
+una inconsistencia entre tablas. Encontrarlos y decidir qué hacer con
+ellos es parte del trabajo, no un accidente del enunciado.
 
 **Importante — el corte temporal.** `clima` cubre el período completo,
 pero `accidentes` y `raw_accidentes` **solo llegan hasta el 2019-07-31**.
@@ -88,35 +98,29 @@ Referencias para ubicarse:
 | Aleatorio (= tasa de positivos) | 0.0201 |
 | **Baseline del profesor** | **0.0598** |
 
-El baseline del profesor es una reimplementación del enfoque usado en un
-trabajo previo sobre este mismo problema, entrenado únicamente con los
-datos que ustedes también tienen. Superarlo es un objetivo razonable y
-alcanzable; no es un techo.
+El baseline del profesor se entrenó únicamente con los mismos datos que
+ustedes reciben. Superarlo es un objetivo razonable y alcanzable; no es
+un techo.
 
-## La trampa principal: el histórico de accidentes
+## La regla que deben respetar
 
-Una variable muy tentadora es "cuántos accidentes hubo en este barrio en
-los últimos N días". Funciona muy bien en entrenamiento… y **no se puede
-calcular en el período de evaluación**, porque justamente esos accidentes
-son las etiquetas ocultas.
+**Toda variable debe ser calculable en el momento de la predicción, con
+información que realmente estaría disponible en ese momento.**
 
-Tienen dos caminos honestos:
+Esa sola frase tiene una consecuencia fuerte en este problema. Piensen
+con cuidado qué información tienen —y cuál no— para una fila del período
+de evaluación, tabla por tabla. Si una variable que les funciona muy bien
+en entrenamiento resulta imposible de calcular para diciembre de 2019,
+eso les está diciendo algo.
 
-1. Calcular agregados históricos **una sola vez, con corte al
-   2019-07-31**, y usarlos como tasa estática por barrio (o por
-   barrio×hora, barrio×día de semana). Es lo que hace el baseline.
-2. Diseñar variables que solo dependan de calendario y clima, que sí
-   están disponibles para todo el período.
+El leaderboard **no puede detectar la fuga de información por sí solo**:
+un modelo con fuga puede dar buen score. Pero la revisión del notebook y
+del informe sí, y ahí se penaliza. El taller lo advierte en la sección
+4.3: *"toda variable histórica debe calcularse únicamente con información
+disponible antes del momento de predicción"*.
 
-Si construyen agregados móviles que se "asoman" al período de evaluación,
-el score no lo va a detectar necesariamente, pero es fuga de información y
-se penaliza en la calificación cualitativa del informe. El taller lo
-advierte en la sección 4.3.
-
-Nota: las variables **climáticas** sí pueden usar ventanas móviles e
-incluso mirar hacia adelante, porque `clima` se entrega completa — hace
-las veces del pronóstico meteorológico que existiría en una operación
-real.
+Documenten en el informe cómo resolvieron esto. Es uno de los puntos más
+interesantes del problema.
 
 ## Cómo enviar y consultar su score
 
