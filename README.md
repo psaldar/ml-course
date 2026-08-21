@@ -53,13 +53,25 @@ Ver el README de cada assignment para el detalle de la métrica usada.
 | [`deteccion-churn`](assignments/deteccion-churn/) | Clasificación binaria (churn telco) | F1-score | Sí |
 | [`regresion-abalone`](assignments/regresion-abalone/) | Regresión (edad de abalones) | RMSE | Sí |
 | [`recomendador-peliculas`](assignments/recomendador-peliculas/) | Predicción de rating (MovieLens 100k) | RMSE | Sí |
-| [`forecasting-demanda-electrica`](assignments/forecasting-demanda-electrica/) | Series de tiempo | WMAPE | **No** — falta agregar la métrica en `ml-grading-infra` |
-| [`segmentacion-semillas`](assignments/segmentacion-semillas/) | Clustering (seeds dataset) | Adjusted Rand Index | **No** — falta agregar la métrica en `ml-grading-infra` |
+| [`forecasting-demanda-electrica`](assignments/forecasting-demanda-electrica/) | Series de tiempo | WMAPE | Sí |
+| [`segmentacion-semillas`](assignments/segmentacion-semillas/) | Clustering (seeds dataset) | Adjusted Rand Index | Sí |
 
-La mayoría sigue el patrón `train.csv` (con target) + `test.csv` (sin
-target) en cada carpeta, con `solution.csv` local (gitignored, nunca se
-publica). `prediccion-accidentalidad-poblado` es la excepción: los datos
-son un SQLite de ~85 MB que se distribuye aparte (no cabe en git).
+## Los datos
+
+**Este repositorio no contiene datos.** La única fuente es el
+almacenamiento del curso, servido por CloudFront. Cada README trae el
+comando de descarga de su assignment, y los notebooks de clase bajan sus
+datasets solos al ejecutarse.
+
+```
+https://d3qixogk4zgixq.cloudfront.net/data/
+  <assignment>/train.csv, test.csv        datos de cada reto
+  prediccion-accidentalidad-poblado/      el SQLite de 85 MB
+  sesiones/                               datasets de las clases 04 y 06
+```
+
+Las respuestas viven en un bucket privado aparte al que solo accede la
+función que califica.
 
 ## Leaderboard
 
@@ -83,12 +95,8 @@ Próximos pasos:
 - [x] Desplegar `ml-grading-infra` (hecho: ver URLs arriba).
 - [ ] Generar las API keys del roster real con
       `ml-grading-infra/scripts/create_student_keys.py` y repartirlas.
-- [ ] Mover cada `solution.csv` (6 assignments nuevos) al repo privado
-      `ml-grading-infra` una vez esté desplegado — hoy solo existen en
-      local, gitignored, nunca se han subido a ningún repo.
+- [x] Respuestas de los 7 retos en el bucket privado de S3.
 - [x] Subir el holdout al bucket privado.
 - [x] Servir el dataset desde CloudFront (ver el README del assignment).
 - [x] Benchmark del profesor en el leaderboard (ROC-AUC = 0.77393).
-- [ ] Agregar las métricas `WMAPE` y `adjusted_rand_index` a
-      `ml-grading-infra/src/common/grading.py` (las necesitan
-      `forecasting-demanda-electrica` y `segmentacion-semillas`).
+- [x] Métricas `wmape` y `adjusted_rand_index` implementadas.

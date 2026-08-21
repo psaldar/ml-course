@@ -38,6 +38,14 @@ reflejen la estructura de variedades presente en los datos.
 
 ## Datos
 
+Los datos no están en este repositorio: se descargan una sola vez
+desde el almacenamiento del curso.
+
+```bash
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/segmentacion-semillas/train.csv
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/segmentacion-semillas/test.csv
+```
+
 - `train.csv`: 80% de los granos, **con** la columna `variedad` (para
   que explores y valides tu intuición sobre los grupos, aunque el
   ejercicio real es no supervisado).

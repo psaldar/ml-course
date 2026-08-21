@@ -35,6 +35,14 @@ tomes en tu notebook.
 
 ## Datos
 
+Los datos no están en este repositorio: se descargan una sola vez
+desde el almacenamiento del curso.
+
+```bash
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/forecasting-demanda-electrica/train.csv
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/forecasting-demanda-electrica/test.csv
+```
+
 - `train.csv`: 292 días de historia (80% inicial de la serie, en orden
   cronológico), con la columna objetivo `demand`.
 - `test.csv`: 73 días siguientes (20% final de la serie), **sin** la

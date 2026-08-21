@@ -21,6 +21,14 @@ métricas de regresión.
 
 ## Datos
 
+Los datos no están en este repositorio: se descargan una sola vez
+desde el almacenamiento del curso.
+
+```bash
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/regresion-abalone/train.csv
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/regresion-abalone/test.csv
+```
+
 - `train.csv`: datos de entrenamiento (con la columna objetivo `Rings`).
 - `test.csv`: datos de evaluación, **sin** la columna objetivo. Debes
   generar predicciones para cada fila.

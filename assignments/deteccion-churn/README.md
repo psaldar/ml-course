@@ -26,6 +26,14 @@ desbalance) aplican directamente.
 
 ## Datos
 
+Los datos no están en este repositorio: se descargan una sola vez
+desde el almacenamiento del curso.
+
+```bash
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/deteccion-churn/train.csv
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/deteccion-churn/test.csv
+```
+
 - `train.csv`: datos de entrenamiento (con la columna objetivo `class`).
 - `test.csv`: datos de evaluación, **sin** la columna objetivo. Debes
   generar predicciones para cada fila.
