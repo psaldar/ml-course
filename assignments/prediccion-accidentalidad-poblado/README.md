@@ -83,32 +83,48 @@ submission = pd.DataFrame({
 submission.to_csv("mi_prediccion.csv", index=False)
 ```
 
-## Métrica: average precision (PR-AUC)
+## Métrica: ROC-AUC
 
 Con ~2% de positivos, la accuracy no sirve: predecir "nunca hay
-accidente" ya acierta el 98% de las veces sin haber aprendido nada. Usamos
-**average precision** (área bajo la curva precision-recall), que mide qué
-tan bien su score ordena los positivos por encima de los negativos, sin
-depender de un umbral.
+accidente" ya acierta el 98% de las veces sin haber aprendido nada. El
+leaderboard usa **ROC-AUC** (`sklearn.metrics.roc_auc_score`), que mide
+qué tan bien su score ordena los positivos por encima de los negativos,
+sin depender de un umbral. Por eso deben entregar una probabilidad
+continua y no una etiqueta 0/1.
 
 Referencias para ubicarse:
 
-| Modelo | AP en el período de evaluación |
+| Modelo | ROC-AUC en el período de evaluación |
 |---|---|
-| Aleatorio (= tasa de positivos) | 0.0201 |
-| Tasa histórica por barrio × hora | 0.0549 |
-| **Baseline del profesor** | **0.0598** |
+| Aleatorio | 0.5000 |
+| Tasa histórica por barrio × hora | 0.7589 |
+| **Baseline del profesor** | **0.7739** |
 
 El baseline del profesor se entrenó únicamente con los mismos datos que
 ustedes reciben. Superarlo es un objetivo razonable y alcanzable; no es
 un techo.
 
 Fíjense en la segunda fila: **un `groupby` de tres líneas ya llega a
-0.0549**. No basta con entrenar un modelo grande y reportar que superó
-al azar — la vara real es lo que aporta su modelo *por encima* de un
-promedio histórico. Empiecen construyendo ese baseline trivial ustedes
-mismos y midan contra él: si su modelo sofisticado no lo mejora,
-descubrirlo temprano vale más que descubrirlo el día de la entrega.
+0.7589**. No basta con entrenar un modelo grande y reportar que superó al
+azar — la vara real es lo que aporta su modelo *por encima* de un
+promedio histórico. Construyan ese baseline trivial ustedes mismos y
+midan contra él: si su modelo sofisticado no lo mejora, descubrirlo
+temprano vale más que descubrirlo el día de la entrega.
+
+### Ojo: el ROC-AUC no lo es todo
+
+El ROC-AUC es la métrica del ranking, pero **no es suficiente para el
+informe**. Con clases muy desbalanceadas tiende a verse optimista, porque
+premia ordenar bien los negativos, que son el 98% de los datos y no le
+interesan a nadie que quiera enviar patrullas. Un modelo con ROC-AUC de
+0.77 puede tener una precisión bajísima en el umbral que ustedes elijan.
+
+Para las secciones 4.5 y 4.7 del taller reporten además **precision,
+recall, la curva precision-recall y la matriz de confusión** en el umbral
+que propongan, y justifiquen ese umbral con el costo de cada tipo de
+error. Discutir la diferencia entre lo que dice el ROC-AUC y lo que dice
+la curva precision-recall en este problema es exactamente el tipo de
+análisis que se evalúa.
 
 ## La regla que deben respetar
 

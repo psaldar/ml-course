@@ -43,7 +43,7 @@ Ver el README de cada assignment para el detalle de la métrica usada.
 
 | Assignment | Tipo | Métrica | Soportada hoy por ml-grading-infra |
 |---|---|---|---|
-| [`prediccion-accidentalidad-poblado`](assignments/prediccion-accidentalidad-poblado/) | Clasificación binaria, ~2% positivos, split temporal | `average_precision` (PR-AUC) | Sí |
+| [`prediccion-accidentalidad-poblado`](assignments/prediccion-accidentalidad-poblado/) | Clasificación binaria, ~2% positivos, split temporal | `roc_auc` | Sí |
 | [`clasificacion-diabetes`](assignments/clasificacion-diabetes/) | Clasificación binaria (Pima Diabetes) | F1-score | Sí |
 | [`deteccion-churn`](assignments/deteccion-churn/) | Clasificación binaria (churn telco) | F1-score | Sí |
 | [`regresion-abalone`](assignments/regresion-abalone/) | Regresión (edad de abalones) | RMSE | Sí |

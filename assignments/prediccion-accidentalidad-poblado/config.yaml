@@ -2,7 +2,7 @@
 # sube al bucket privado de holdout (ver ml-grading-infra); este archivo
 # documenta los mismos valores para que quede claro qué se evalúa.
 mode: predictions
-metric: average_precision
+metric: roc_auc
 id_col: id
 target_col: target
 holdout_key: holdout/prediccion-accidentalidad-poblado/labels.csv
@@ -16,6 +16,8 @@ test_rows: 80256
 test_positive_rate: 0.0201
 id_format: "{BARRIO}|{TW}"
 
+# Scores en el holdout, bajo la métrica del leaderboard (roc_auc)
 benchmarks:
-  aleatorio: 0.0201
-  profesor: 0.0598
+  aleatorio: 0.5000
+  trivial_tasa_barrio_hora: 0.7589
+  profesor: 0.7739
