@@ -96,11 +96,19 @@ Referencias para ubicarse:
 | Modelo | AP en el período de evaluación |
 |---|---|
 | Aleatorio (= tasa de positivos) | 0.0201 |
+| Tasa histórica por barrio × hora | 0.0549 |
 | **Baseline del profesor** | **0.0598** |
 
 El baseline del profesor se entrenó únicamente con los mismos datos que
 ustedes reciben. Superarlo es un objetivo razonable y alcanzable; no es
 un techo.
+
+Fíjense en la segunda fila: **un `groupby` de tres líneas ya llega a
+0.0549**. No basta con entrenar un modelo grande y reportar que superó
+al azar — la vara real es lo que aporta su modelo *por encima* de un
+promedio histórico. Empiecen construyendo ese baseline trivial ustedes
+mismos y midan contra él: si su modelo sofisticado no lo mejora,
+descubrirlo temprano vale más que descubrirlo el día de la entrega.
 
 ## La regla que deben respetar
 
