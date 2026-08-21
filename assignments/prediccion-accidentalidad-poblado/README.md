@@ -18,7 +18,13 @@ reto.
 
 ## Los datos
 
-Un SQLite (~85 MB) con tres tablas:
+Descarga (~85 MB):
+
+```bash
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/data_accidentes_poblado.sqlite3
+```
+
+Un SQLite con tres tablas:
 
 | Tabla | Contenido |
 |---|---|

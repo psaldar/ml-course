@@ -26,27 +26,37 @@ def main() -> None:
 
     api_url = _require_env("ML_COURSE_API_URL")
     api_key = _require_env("ML_COURSE_API_KEY")
-    student_id = _require_env("ML_COURSE_STUDENT_ID")
 
     headers = {"x-api-key": api_key}
 
     if args.leaderboard:
         resp = requests.get(
             f"{api_url}/assignments/{args.assignment_slug}/leaderboard",
-            headers=headers,
             timeout=15,
         )
         resp.raise_for_status()
-        for entry in resp.json()["leaderboard"]:
-            print(f"{entry['rank']:>3}. {entry['student_id']:<20} {entry['score']}")
+        datos = resp.json()
+        entradas = datos.get("leaderboard", [])
+        if not entradas:
+            print("Todavía no hay entregas para este assignment.")
+            return
+        print(f"Métrica: {datos.get('metric')}\n")
+        for entry in entradas:
+            print(f"{entry['rank']:>3}. {entry['student_id']:<24} {entry['score']}")
         return
 
-    resp = requests.get(f"{api_url}/submissions/{student_id}", headers=headers, timeout=15)
-    if resp.status_code == 404:
+    resp = requests.get(f"{api_url}/submissions/me", headers=headers, timeout=15)
+    if resp.status_code == 401:
+        sys.exit("API key inválida. Revisa ML_COURSE_API_KEY en tu .env")
+    resp.raise_for_status()
+    datos = resp.json()
+    if not datos.get("assignment_id"):
         print("Aún no tienes entregas registradas.")
         return
-    resp.raise_for_status()
-    print(resp.json())
+    print(f"assignment : {datos.get('assignment_id')}")
+    print(f"estado     : {datos.get('status')}")
+    if "score" in datos:
+        print(f"score      : {datos['score']}  ({datos.get('metric')})")
 
 
 def _require_env(name: str) -> str:

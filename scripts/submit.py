@@ -4,7 +4,8 @@
 Requiere un archivo .env con:
     ML_COURSE_API_URL=https://xxxx.execute-api.us-east-1.amazonaws.com/dev
     ML_COURSE_API_KEY=<tu api key, entregada por el profesor>
-    ML_COURSE_STUDENT_ID=<tu id de estudiante>
+
+Tu identidad sale de la API key, así que no hay que declararla aparte.
 
 Uso:
     uv run scripts/submit.py <assignment-slug> ./mi_prediccion.csv
@@ -30,25 +31,28 @@ def main() -> None:
 
     api_url = _require_env("ML_COURSE_API_URL")
     api_key = _require_env("ML_COURSE_API_KEY")
-    student_id = _require_env("ML_COURSE_STUDENT_ID")
 
     if not args.predictions_csv.exists():
         sys.exit(f"No existe el archivo: {args.predictions_csv}")
 
     resp = requests.post(
         f"{api_url}/assignments/{args.assignment_slug}/upload-url",
-        json={"student_id": student_id, "filename": args.predictions_csv.name},
+        json={},
         headers={"x-api-key": api_key},
         timeout=15,
     )
+    if resp.status_code == 401:
+        sys.exit("API key inválida. Revisa ML_COURSE_API_KEY en tu .env")
     resp.raise_for_status()
-    upload_url = resp.json()["upload_url"]
+    datos = resp.json()
 
     with open(args.predictions_csv, "rb") as fh:
-        put_resp = requests.put(upload_url, data=fh, timeout=30)
+        put_resp = requests.put(datos["upload_url"], data=fh, timeout=120)
     put_resp.raise_for_status()
 
-    print(f"Entrega enviada para '{args.assignment_slug}'. Revisa tu score con:")
+    print(f"Entrega enviada como '{datos['student_id']}' para "
+          f"'{args.assignment_slug}'.")
+    print("La calificación tarda unos segundos. Revisa tu score con:")
     print(f"  uv run scripts/check_status.py {args.assignment_slug}")
 
 
