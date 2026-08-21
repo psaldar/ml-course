@@ -89,7 +89,7 @@ Próximos pasos:
       (~85 MB) a los estudiantes — la idea es servirlo desde S3 una vez
       desplegado.
 - [ ] Enviar el benchmark del profesor como submission de referencia
-      (AP = 0.0598) para que aparezca en el leaderboard.
+      (ROC-AUC = 0.7739) para que aparezca en el leaderboard.
 - [ ] Agregar las métricas `WMAPE` y `adjusted_rand_index` a
       `ml-grading-infra/src/common/grading.py` (las necesitan
       `forecasting-demanda-electrica` y `segmentacion-semillas`).
