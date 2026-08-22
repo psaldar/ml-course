@@ -1,20 +1,23 @@
-# Predicción de accidentalidad — El Poblado
+# Reto 1 — Predicción de accidentalidad vial
 
-Competencia con leaderboard automático, asociada al taller **"Predicción
-de accidentalidad"** (ver el PDF del taller para el enunciado completo:
-contexto, EDA, calidad de datos, ingeniería de características, informe y
-rúbrica). Este README cubre **solo la parte que se califica
-automáticamente**.
+**Clasificación con clases desbalanceadas · 15% de la nota del curso**
+
+---
 
 ## El problema
 
-> ¿Cuál es la probabilidad de que ocurra al menos un accidente de tránsito
-> en el barrio *B* a la hora *h*?
+La Secretaría de Movilidad tiene agentes de tránsito limitados y necesita
+decidir **dónde y a qué hora ubicarlos**. No puede cubrir los 22 barrios de
+El Poblado las 24 horas: tiene que priorizar. Un modelo que anticipe dónde
+es más probable un accidente permite pasar de reaccionar a prevenir.
 
-Ámbito: los **22 barrios de El Poblado**, Medellín. Cada fila del problema
-es una pareja (barrio, hora). La mayoría de esas parejas no registra
-accidentes — alrededor del **2%** sí. El desbalance es el corazón del
-reto.
+> **Estimar la probabilidad de que ocurra al menos un accidente de tránsito
+> en el barrio B a la hora h.**
+
+Cada fila del problema es una pareja (barrio, hora). La mayoría no registra
+accidentes — alrededor del **2%** sí. Ese desbalance es el corazón del reto:
+un modelo que siempre diga "no habrá accidente" acierta el 98% de las veces
+y es completamente inútil.
 
 ## Los datos
 
@@ -169,21 +172,35 @@ README principal) o desde la terminal:
 uv run scripts/check_status.py prediccion-accidentalidad-poblado --leaderboard
 ```
 
-## Relación con la nota del taller
+## Cómo se califica
 
-El taller se entrega y califica como dice el PDF (informe + notebook,
-rúbrica por criterios). Este leaderboard es el respaldo objetivo de la
-parte cuantitativa:
+### Etapa 1 — Leaderboard (40%)
 
-| Criterio del taller | Peso | ¿Respaldado por el leaderboard? |
+| Resultado | Puntaje de esta etapa |
+|---|---|
+| No supera la tasa histórica (ROC-AUC ≤ 0.7589) | 0 – 50% |
+| Supera la tasa histórica | 60% |
+| Entre la tasa histórica y el baseline del profesor | 60 – 90% (interpolado) |
+| Supera el baseline del profesor (ROC-AUC > 0.7739) | 90 – 100% |
+| Top-3 del curso | 100% |
+
+Pueden entregar las veces que quieran; cuenta la última.
+
+### Etapa 2 — Notebook (60%)
+
+Un notebook ejecutable de principio a fin, en español, que contenga:
+
+| Sección | Peso | Qué se evalúa |
 |---|---|---|
-| Manejo del desbalance | 20% | Sí |
-| Modelado y validación | 20% | Sí |
-| Métricas y selección del modelo final | 10% | Sí |
-| EDA y calidad de datos | 15% | No — rúbrica |
-| Ingeniería de características | 15% | No — rúbrica |
-| Caso de uso y limitaciones | 10% | No — rúbrica |
-| Calidad del informe y del notebook | 10% | No — rúbrica |
+| Exploración y calidad de datos | 15% | Distribución temporal y espacial, clima, y qué hicieron con los faltantes y las inconsistencias entre tablas |
+| Construcción del target y unión de tablas | 10% | Cómo definieron la unidad de análisis y construyeron los casos negativos |
+| Ingeniería de características | 10% | Qué variables crearon y por qué; codificación de cíclicas y categóricas |
+| **Manejo del desbalance** | 10% | Estrategias probadas y comparadas; ajuste del umbral de decisión |
+| Validación | 5% | Partición temporal; por qué una aleatoria sería un error |
+| Métricas más allá del ROC-AUC | 5% | Precision, recall, curva PR y matriz de confusión en el umbral elegido |
+| Caso de uso y limitaciones | 5% | Cómo se usaría en operación (turnos, mapa de calor), sesgos y límites |
+
+El PDF del taller amplía el contexto y el detalle de cada sección.
 
 ## Por qué este formato es resistente a la IA
 
