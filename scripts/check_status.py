@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
-"""Consulta tu score y el leaderboard de un assignment.
+"""Consulta tus entregas y el leaderboard de un assignment.
 
 Requiere el mismo .env que scripts/submit.py.
 
 Uso:
     uv run scripts/check_status.py <assignment-slug>
+    uv run scripts/check_status.py <assignment-slug> --leaderboard
+    uv run scripts/check_status.py --all   # todas tus entregas, en cualquier reto
 """
 from __future__ import annotations
 
@@ -20,9 +22,13 @@ def main() -> None:
     load_dotenv()
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("assignment_slug")
+    parser.add_argument("assignment_slug", nargs="?")
     parser.add_argument("--leaderboard", action="store_true", help="Muestra el leaderboard completo")
+    parser.add_argument("--all", action="store_true", help="Lista todas tus entregas, en cualquier reto")
     args = parser.parse_args()
+
+    if not args.all and not args.leaderboard and not args.assignment_slug:
+        sys.exit("Falta el nombre del reto, o usa --all para ver todas tus entregas.")
 
     api_url = _require_env("ML_COURSE_API_URL")
     api_key = _require_env("ML_COURSE_API_KEY")
@@ -49,14 +55,33 @@ def main() -> None:
     if resp.status_code == 401:
         sys.exit("API key inválida. Revisa ML_COURSE_API_KEY en tu .env")
     resp.raise_for_status()
-    datos = resp.json()
-    if not datos.get("assignment_id"):
-        print("Aún no tienes entregas registradas.")
+    submissions = resp.json().get("submissions", [])
+
+    if args.all:
+        if not submissions:
+            print("Todavía no tienes ninguna entrega registrada.")
+            return
+        for s in sorted(submissions, key=lambda s: s.get("assignment_id", "")):
+            _imprimir(s)
         return
-    print(f"assignment : {datos.get('assignment_id')}")
-    print(f"estado     : {datos.get('status')}")
-    if "score" in datos:
-        print(f"score      : {datos['score']}  ({datos.get('metric')})")
+
+    mia = next(
+        (s for s in submissions if s.get("assignment_id") == args.assignment_slug), None
+    )
+    if mia is None:
+        print(f"Aún no tienes una entrega para '{args.assignment_slug}'.")
+        return
+    _imprimir(mia)
+
+
+def _imprimir(s: dict) -> None:
+    print(f"assignment : {s.get('assignment_id')}")
+    print(f"estado     : {s.get('status')}")
+    if "score" in s:
+        print(f"score      : {s['score']}  ({s.get('metric')})")
+    if "error" in s:
+        print(f"error      : {s['error']}")
+    print()
 
 
 def _require_env(name: str) -> str:
