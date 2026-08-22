@@ -21,7 +21,7 @@ reto.
 Descarga (~85 MB):
 
 ```bash
-curl -O https://d3qixogk4zgixq.cloudfront.net/data/data_accidentes_poblado.sqlite3
+curl -O https://d3qixogk4zgixq.cloudfront.net/data/prediccion-accidentalidad-poblado/data_accidentes_poblado.sqlite3
 ```
 
 Un SQLite con tres tablas:
