@@ -1,46 +1,22 @@
-# recomendador-peliculas
+# Reto 3 — Sistema de recomendación de películas
 
-## Enunciado
+**Filtrado colaborativo · 15% de la nota del curso**
 
-En 2006, Netflix lanzó el **Netflix Prize**: un millón de dólares para
-quien mejorara en un 10% el RMSE de su sistema de recomendación de
-películas, usando únicamente el historial de calificaciones de sus
-usuarios (sin atributos de las películas ni de los usuarios). Ese
-concurso popularizó la **factorización de matrices** como técnica
-central del *collaborative filtering*.
+---
 
-Esta actividad es una versión simplificada del mismo problema: tu
-tarea es predecir el **rating** (1 a 5 estrellas) que un usuario le
-daría a una película que no ha calificado, usando el dataset
-[MovieLens 100k](https://grouplens.org/datasets/movielens/100k/).
+## El problema
 
-No se trata de adivinar "a ojo" — con casi 1000 usuarios y más de 1600
-películas, y una matriz de interacciones con más del 93% de celdas
-vacías, solo un modelo que aprenda patrones colectivos (o de
-contenido) generalizará bien sobre los pares `(user_id, item_id)` del
-conjunto de evaluación.
+Una plataforma de streaming quiere anticipar **qué calificación le daría un
+usuario a una película que todavía no ha visto**. Con eso decide qué
+recomendar en la portada de cada persona: si el modelo acierta, el usuario
+encuentra qué ver y se queda; si falla, recomienda ruido y el usuario se va.
 
-Puedes resolverlo con la técnica que prefieras (o combinarlas):
+> **Predecir la calificación (1 a 5) que un usuario le dará a una película.**
 
-- **Collaborative filtering** vía factorización de matrices (la
-  técnica vista en el notebook de clase: `R ≈ U · Vᵀ`, entrenada con
-  SGD en numpy puro), o similitud usuario-usuario / ítem-ítem sobre la
-  matriz de utilidad.
-- **Content-based filtering** usando los géneros de `movies.csv` para
-  construir un perfil de usuario y estimar el rating por similitud.
-- Un **baseline** simple (ej. promedio global, promedio por película,
-  promedio por usuario) como punto de partida antes de algo más
-  sofisticado.
+## Los datos
 
-Los pares `(usuario, película)` de `test.csv` son un split **distinto**
-al que se usó en el notebook de clase (misma fuente de datos, semilla
-de partición diferente), así que no vas a encontrar la respuesta ya
-resuelta ahí — necesitas correr tu propio modelo sobre estos pares.
-
-## Datos
-
-Los datos no están en este repositorio: se descargan una sola vez
-desde el almacenamiento del curso.
+100.000 calificaciones reales de 943 usuarios sobre 1.682 películas
+(MovieLens). Descarga:
 
 ```bash
 curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/train.csv
@@ -48,70 +24,100 @@ curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/test.c
 curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/movies.csv
 ```
 
-- `train.csv`: 80,000 interacciones (80% del dataset), con columnas
-  `id, user_id, item_id, rating, timestamp`. Úsalo para entrenar tu
-  modelo (construir la matriz de utilidad, entrenar la factorización,
-  calcular perfiles de usuario, etc).
-- `test.csv`: 20,000 interacciones (20% restante), con columnas
-  `id, user_id, item_id` — **sin** la columna `rating`. Debes generar
-  una predicción de rating para cada fila.
-- `movies.csv`: metadata de las 1682 películas del catálogo —
-  `item_id, title` y 19 columnas binarias de género (`Action`,
-  `Comedy`, `Drama`, ...). Útil si quieres intentar un enfoque
-  content-based.
+| Archivo | Contenido |
+|---|---|
+| `train.csv` | 79.619 calificaciones: `id`, `user_id`, `item_id`, `rating`, `timestamp` |
+| `test.csv` | 20.381 pares (usuario, película) **sin** `rating` — es lo que deben predecir |
+| `movies.csv` | Metadatos de las 1.682 películas: título, fecha de estreno, 19 géneros |
 
-El split de `train.csv` / `test.csv` es un particionamiento aleatorio
-80/20 de las filas de interacciones de `u.data` (no por usuario ni por
-película), con `random_state=123`.
+### El corte es temporal, por usuario
 
-## Qué debes entregar
+De cada usuario se reservó su **20% de calificaciones más reciente**. Es el
+protocolo estándar en sistemas de recomendación, y tiene una consecuencia
+directa:
 
-Un CSV con columnas `id,rating` que contenga una predicción de rating
-(idealmente en el rango 1-5, aunque no es obligatorio recortarlo) para
-cada fila de `test.csv`. Usa `scripts/submit.py` desde la raíz del
-repo para enviarlo:
+> Para predecir lo que un usuario calificó en marzo, solo pueden usar lo que
+> ese usuario calificó **antes**. Nunca después.
 
-```bash
-uv run scripts/submit.py recomendador-peliculas ./mi_prediccion.csv
+Esto importa más de lo que parece. Con una partición aleatoria —la que
+usamos en clase— el modelo puede mirar calificaciones *posteriores* del
+mismo usuario para predecir una anterior. Eso infla artificialmente el
+desempeño y es imposible en operación: nadie conoce el futuro de sus
+usuarios. Por eso el reto no es el mismo problema de la sesión 06 con otros
+datos: **es más difícil, y su modelo de clase probablemente no transfiera
+directamente.**
+
+### Cold-start de películas
+
+69 películas del período de evaluación **nunca aparecen en `train.csv`**
+(86 filas, 0.4%). El filtrado colaborativo puro no tiene nada que decir
+sobre ellas: no hay historial. Para eso les damos `movies.csv` — género y
+año de estreno permiten un enfoque de contenido. Es poco volumen, pero
+decidir qué hacer con esos casos (y justificarlo) es parte del trabajo.
+
+## Formato de la entrega
+
+CSV con columnas `id,rating` — una fila por cada `id` de `test.csv` (20.381):
+
+```python
+submission = pd.DataFrame({"id": test["id"], "rating": predicciones})
+submission.to_csv("mi_prediccion.csv", index=False)
 ```
+
+`rating` es continuo: **no lo redondeen a enteros.** Predecir 3.7 cuando la
+calificación real es 4 da menos error que predecir 4 y equivocarse en otros
+casos. El redondeo solo destruye información.
+
+## Métrica: RMSE
+
+Raíz del error cuadrático medio sobre la calificación. **Más bajo es mejor.**
+
+| Referencia | RMSE |
+|---|---|
+| Predecir siempre la media global | 1.2079 |
+| Media + sesgo de usuario + sesgo de película | 1.0139 |
+| **Baseline del profesor** (factorización de matrices) | **0.9683** |
+
+Presten atención a la segunda fila. El **modelo de sesgos** —"a este usuario
+le gusta calificar alto, esta película gusta más que el promedio"— es
+aritmética simple y ya llega a 1.01. Es un baseline notoriamente fuerte: en
+la literatura, muchos sistemas elaborados no lo superan. Constrúyanlo
+primero.
 
 ## Cómo se califica
 
-Tu entrega se compara automáticamente contra un conjunto de labels
-privado que no ves (los ratings reales de `test.csv`). La métrica
-usada es: **RMSE** (raíz del error cuadrático medio) entre tu
-predicción y el rating real. Un RMSE más bajo es mejor. Puedes ver tu
-score y tu posición en el leaderboard con:
+### Etapa 1 — Leaderboard (40%)
+
+| Resultado | Puntaje de esta etapa |
+|---|---|
+| No supera la media global (RMSE ≥ 1.2079) | 0 – 50% |
+| Supera la media global | 60% |
+| Entre la media global y el baseline del profesor | 60 – 90% (interpolado) |
+| Supera el baseline del profesor (RMSE < 0.9683) | 90 – 100% |
+| Top-3 del curso | 100% |
+
+Pueden entregar las veces que quieran; cuenta la última.
+
+### Etapa 2 — Notebook (60%)
+
+Un notebook ejecutable de principio a fin, en español, que contenga:
+
+| Sección | Peso | Qué se evalúa |
+|---|---|---|
+| Exploración | 10% | Distribución de calificaciones, dispersión de la matriz, usuarios/películas más activos, sesgos observados |
+| Baseline de sesgos | 10% | Implementado y medido antes de cualquier modelo complejo |
+| Modelo(s) de recomendación | 15% | Al menos dos enfoques (vecindario, factorización, híbrido), comparados con criterio |
+| Validación | 10% | Cómo montaron el corte temporal por usuario dentro de train; por qué no sirve una partición aleatoria |
+| **Cold-start** | 10% | Qué hicieron con las películas sin historial y por qué |
+| Interpretación y caso de uso | 5% | Qué recomendaría el sistema, limitaciones, qué falta para producción |
+
+## Entrega
+
+Página web (https://d3qixogk4zgixq.cloudfront.net) o terminal:
 
 ```bash
+uv run scripts/submit.py recomendador-peliculas ./mi_prediccion.csv
 uv run scripts/check_status.py recomendador-peliculas
 ```
 
-## Por qué este formato es "AI-proof"
-
-Un chatbot puede generarte código plausible de un recomendador, pero
-no puede adivinar los ratings reales de pares `(usuario, película)`
-que nunca ha visto resueltos. Para obtener un buen RMSE necesitas
-efectivamente construir la matriz de utilidad, entrenar un modelo
-(factorización, similitud, o lo que elijas) y validar que generalice
-sobre pares no vistos — no basta con copiar una respuesta.
-
-## Nota para el profesor
-
-`train.csv`, `test.csv`, `solution.csv` y `movies.csv` se generaron
-localmente a partir de MovieLens 100k
-(`https://files.grouplens.org/datasets/movielens/ml-100k.zip`, `u.data`
-y `u.item`), con un split 80/20 de las filas de interacciones
-(`random_state=123`, semilla distinta a la usada en el notebook de
-clase `random_state=42`, para que el split del assignment sea
-disjunto en la práctica del que ya se resuelve en clase). `movies.csv`
-se deriva de `u.item` sin ninguna transformación de privacidad (es
-metadata pública de películas, no hay filtración de labels ahí).
-
-`solution.csv` (columnas `id,rating` del 20% de test) quedó **local y
-gitignored** en esta misma carpeta (`assignments/recomendador-peliculas/.gitignore`)
-para no filtrar el test set en el repo público. Para habilitar la
-calificación automática real falta copiar `solution.csv` al repo
-privado `ml-grading-infra`, que es el que compara las entregas de
-`scripts/submit.py` contra este archivo. Ese paso queda fuera del
-alcance de esta tarea.
+El notebook se entrega por EAFIT Interactiva.

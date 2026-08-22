@@ -27,26 +27,24 @@ modules/            material teórico por módulo/semana
 notebooks/           notebooks exploratorios de clase
 assignments/
   _template/          plantilla para crear un nuevo assignment
-  <slug>/              un assignment concreto: README + starter notebook + public_tests
+  <slug>/              un reto: README con el enunciado + notebook de partida
 scripts/
   submit.py            envía tu CSV de predicciones
   check_status.py       consulta tu score / leaderboard
 ```
 
-## Cómo funcionan las actividades evaluativas
+## Cómo funcionan los retos
 
-Cada assignment sigue el formato "predicciones sobre holdout privado"
-(estilo Kaggle InClass):
+Cada reto sigue el formato "predicciones sobre holdout privado" (estilo
+Kaggle InClass):
 
-1. Recibes un `train.csv` (con labels) y un `test.csv` (sin labels), o el
-   SQLite del reto de accidentalidad.
-2. Entrenas tu propio modelo localmente (notebook de partida en
-   `assignments/<slug>/starter_notebook.ipynb`).
+1. Descargas los datos (train con la variable objetivo, test sin ella).
+2. Entrenas tu modelo localmente.
 3. Generas un CSV de predicciones y lo envías (dos formas, ver abajo).
-4. El backend lo compara contra labels privados que nunca ves y te
-   devuelve un score + tu posición en el leaderboard.
+4. El backend lo compara contra respuestas que nunca ves y te devuelve un
+   score + tu posición en el leaderboard.
 
-Ver el README de cada assignment para el detalle de la métrica usada.
+Ver el README de cada reto para el enunciado, la métrica y la rúbrica.
 
 ## Cómo entregar
 
@@ -88,17 +86,33 @@ nombre. Si la pierdes o crees que se filtró, pide una nueva; no hay forma
 de recuperar la anterior (se guarda hasheada, ni el profesor puede verla
 en texto plano).
 
-## Assignments
+## Los 3 retos
 
-| Assignment | Tipo | Métrica | Soportada hoy por ml-grading-infra |
-|---|---|---|---|
-| [`prediccion-accidentalidad-poblado`](assignments/prediccion-accidentalidad-poblado/) | Clasificación binaria, ~2% positivos, split temporal | `roc_auc` | Sí |
-| [`clasificacion-diabetes`](assignments/clasificacion-diabetes/) | Clasificación binaria (Pima Diabetes) | F1-score | Sí |
-| [`deteccion-churn`](assignments/deteccion-churn/) | Clasificación binaria (churn telco) | F1-score | Sí |
-| [`regresion-abalone`](assignments/regresion-abalone/) | Regresión (edad de abalones) | RMSE | Sí |
-| [`recomendador-peliculas`](assignments/recomendador-peliculas/) | Predicción de rating (MovieLens 100k) | RMSE | Sí |
-| [`forecasting-demanda-electrica`](assignments/forecasting-demanda-electrica/) | Series de tiempo | WMAPE | Sí |
-| [`segmentacion-semillas`](assignments/segmentacion-semillas/) | Clustering (seeds dataset) | Adjusted Rand Index | Sí |
+Los retos son la **nota de seguimiento del curso: 45% en total**, 15% cada
+uno. Uno por fin de semana.
+
+| # | Reto | Tipo | Métrica | Peso |
+|---|---|---|---|---|
+| 1 | [Predicción de accidentalidad](assignments/prediccion-accidentalidad-poblado/) | Clasificación desbalanceada (~2% positivos), datos en SQLite | `roc_auc` | 15% |
+| 2 | [Demanda de bicicletas](assignments/demanda-bicicletas/) | Regresión con corte temporal, 17k horas | `rmse` | 15% |
+| 3 | [Recomendador de películas](assignments/recomendador-peliculas/) | Filtrado colaborativo, corte temporal por usuario | `rmse` | 15% |
+
+### Cada reto tiene dos etapas
+
+**Etapa 1 — Leaderboard (40% del reto).** Suben su CSV de predicciones y el
+sistema lo califica solo contra un conjunto de respuestas que nunca ven. La
+nota sale de umbrales absolutos, no de la posición relativa: superar el
+baseline trivial da 60%, superar el baseline del profesor da 90%+, el top-3
+da 100%. Pueden entregar las veces que quieran.
+
+**Etapa 2 — Notebook (60% del reto).** Un notebook ejecutable y documentado
+en español con el análisis completo: exploración, decisiones de modelado,
+validación, análisis de errores e interpretación. **Pesa más que el score**
+— un buen número sin entender de dónde salió no alcanza. El README de cada
+reto trae la rúbrica detallada.
+
+Los tres retos entregan datos **crudos** (sin variables pre-calculadas, con
+sus inconsistencias) y usan **corte temporal**, no particiones aleatorias.
 
 ## Los datos
 
@@ -127,17 +141,7 @@ recomendación). `sesion_04` y `sesion_06` incluyen datasets propios
 
 ## Estado actual
 
-Próximos pasos:
+Todo desplegado y probado de punta a punta. Los 17 estudiantes del roster
+2026-1 tienen su API key generada.
 
-- [x] Desplegar `ml-grading-infra` (hecho: ver URLs arriba).
-- [ ] Generar las API keys del roster real con
-      `ml-grading-infra/scripts/create_student_keys.py` y repartirlas.
-- [x] Respuestas de los 7 retos en el bucket privado de S3.
-- [x] Subir el holdout al bucket privado.
-- [x] Servir el dataset desde CloudFront (ver el README del assignment).
-- [x] Benchmark del profesor en el leaderboard (ROC-AUC = 0.77393).
-- [x] Métricas `wmape` y `adjusted_rand_index` implementadas.
-- [x] Página web para entregar y ver el leaderboard, con login por API key.
-- [x] Autenticación real: `/submissions/me` y la subida exigen `x-api-key`.
-- [x] Un estudiante puede tener entregas independientes en varios retos
-      (antes una entrega nueva podía borrar el resultado de otro reto).
+Pendiente: repartir las API keys a cada estudiante.
