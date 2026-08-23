@@ -32,28 +32,27 @@ curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/movies
 
 ### El corte es temporal, por usuario
 
-De cada usuario se reservó su **20% de calificaciones más reciente**. Es el
-protocolo estándar en sistemas de recomendación, y tiene una consecuencia
-directa:
+`test.csv` contiene, de cada usuario, su **20% de calificaciones más
+reciente**. Es el protocolo estándar de evaluación en sistemas de
+recomendación, y tiene una consecuencia directa:
 
 > Para predecir lo que un usuario calificó en marzo, solo pueden usar lo que
 > ese usuario calificó **antes**. Nunca después.
 
-Esto importa más de lo que parece. Con una partición aleatoria —la que
-usamos en clase— el modelo puede mirar calificaciones *posteriores* del
-mismo usuario para predecir una anterior. Eso infla artificialmente el
-desempeño y es imposible en operación: nadie conoce el futuro de sus
-usuarios. Por eso el reto no es el mismo problema de la sesión 06 con otros
-datos: **es más difícil, y su modelo de clase probablemente no transfiera
-directamente.**
+Esto importa más de lo que parece. Una partición aleatoria permitiría mirar
+calificaciones *posteriores* del mismo usuario para predecir una anterior;
+eso infla artificialmente el desempeño y es imposible en operación, donde
+nadie conoce el futuro de sus usuarios. Tenerlo en cuenta al montar su
+validación es determinante en este reto.
 
 ### Cold-start de películas
 
 69 películas del período de evaluación **nunca aparecen en `train.csv`**
 (86 filas, 0.4%). El filtrado colaborativo puro no tiene nada que decir
-sobre ellas: no hay historial. Para eso les damos `movies.csv` — género y
-año de estreno permiten un enfoque de contenido. Es poco volumen, pero
-decidir qué hacer con esos casos (y justificarlo) es parte del trabajo.
+sobre ellas: no hay historial. `movies.csv` es la única información
+disponible para esos casos — género y año de estreno permiten un enfoque
+de contenido. Es poco volumen, pero decidir qué hacer con ellos y
+justificarlo es parte del trabajo.
 
 ## Formato de la entrega
 
