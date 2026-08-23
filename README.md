@@ -129,8 +129,16 @@ Las respuestas del período de evaluación no son públicas.
 
 ## Notebooks de clase
 
-`notebooks/sesion_01` a `sesion_06` — material de las sesiones (regresión,
-clasificación y validación, árboles/ensambles/desbalance, series de
-tiempo, reducción de dimensionalidad/clustering, sistemas de
-recomendación). `sesion_04` y `sesion_06` incluyen datasets propios
-(bike sharing, MovieLens 100k).
+Cada sesión son 4 horas: 3 h de exposición, 30 min de descanso y **30 min
+de ejercicio** sobre el notebook de la sesión.
+
+| # | Sesión | Tema |
+|---|---|---|
+| 1 | `sesion_01_fundamentos_regresion` | Fundamentos de ML y regresión |
+| 2 | `sesion_02_clasificacion_validacion` | Clasificación, sesgo-varianza y validación |
+| 3 | `sesion_03_arboles_ensambles_desbalance` | Árboles, ensambles y desbalance |
+| 4 | `sesion_04_series_de_tiempo` | Series de tiempo |
+| 5 | `sesion_05_sistemas_recomendacion` | Sistemas de recomendación |
+| 6 | `sesion_06_reduccion_clustering` | Reducción de dimensionalidad y clustering |
+
+El ejercicio de cada notebook está dividido en 3 partes de 10 minutos.
