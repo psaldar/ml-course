@@ -39,11 +39,9 @@ curl -O https://d3qixogk4zgixq.cloudfront.net/data/demanda-bicicletas/test.csv
 | `casual`, `registered` | Alquileres por tipo de usuario — **solo en train** |
 | `cnt` | **Variable objetivo**: alquileres totales en esa hora — solo en train |
 
-**Los datos vienen crudos a propósito.** El dataset original trae variables
-de calendario pre-calculadas (estación, mes, día de la semana, si es día
-laboral); las quitamos. Todas son derivables de `dteday` y construirlas es
-parte del trabajo. Se conserva `holiday`, que no se puede derivar de la
-fecha sin un calendario de festivos.
+Eso es todo lo que hay: fecha, hora, clima y si el día es festivo. Cualquier
+otra variable de calendario que su modelo necesite —estación, mes, día de la
+semana, si es día laboral— la construyen ustedes a partir de `dteday`.
 
 ### El corte temporal
 
@@ -63,11 +61,13 @@ simplemente extienda el nivel reciente se va a equivocar sistemáticamente.
 
 **Toda variable debe poder calcularse en el momento de predecir.**
 
-Piensen con cuidado qué información tienen realmente disponible para una
-hora de noviembre de 2012, columna por columna. Hay al menos una variable
-en `train.csv` que produce un modelo excelente en validación e **imposible
-de aplicar** sobre `test.csv`. Encontrarla es parte del reto; documentar por
-qué no sirve, parte de la nota.
+Comparen columna por columna qué trae `train.csv` y qué trae `test.csv`, y
+pregúntense para cada variable si estaría disponible al predecir una hora de
+noviembre de 2012. Si una variable les da un desempeño excelente en
+validación pero no pueden calcularla sobre `test.csv`, ese modelo no sirve
+por bueno que parezca.
+
+Documenten en el notebook qué variables descartaron por esta razón.
 
 ## Formato de la entrega
 

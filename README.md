@@ -1,9 +1,8 @@
 # ml-course
 
-Material, notebooks y actividades evaluativas del curso de Machine
-Learning. Las actividades se califican automáticamente contra un
-[backend serverless](https://github.com/psaldar/ml-grading-infra) (repo
-privado, ese sí tiene los datasets de evaluación y no es público).
+Material, notebooks y retos del curso de Machine Learning. Los retos se
+califican automáticamente: suben sus predicciones y reciben el score en
+minutos.
 
 ## Setup
 
@@ -26,8 +25,7 @@ que prefieras.
 modules/            material teórico por módulo/semana
 notebooks/           notebooks exploratorios de clase
 assignments/
-  _template/          plantilla para crear un nuevo assignment
-  <slug>/              un reto: README con el enunciado + notebook de partida
+  <reto>/              README con el enunciado + notebook de partida
 scripts/
   submit.py            envía tu CSV de predicciones
   check_status.py       consulta tu score / leaderboard
@@ -111,25 +109,23 @@ validación, análisis de errores e interpretación. **Pesa más que el score**
 — un buen número sin entender de dónde salió no alcanza. El README de cada
 reto trae la rúbrica detallada.
 
-Los tres retos entregan datos **crudos** (sin variables pre-calculadas, con
-sus inconsistencias) y usan **corte temporal**, no particiones aleatorias.
+En los tres, los datos llegan tal como salen de la fuente y la evaluación
+usa un **corte temporal**: se entrena con el pasado y se predice el futuro.
 
 ## Los datos
 
-**Este repositorio no contiene datos.** La única fuente es el
-almacenamiento del curso, servido por CloudFront. Cada README trae el
-comando de descarga de su assignment, y los notebooks de clase bajan sus
-datasets solos al ejecutarse.
+**Este repositorio no contiene datos.** Se descargan del almacenamiento
+del curso: el README de cada reto trae su comando de descarga, y los
+notebooks de clase bajan sus datasets solos al ejecutarse.
 
 ```
 https://d3qixogk4zgixq.cloudfront.net/data/
-  <assignment>/train.csv, test.csv                       datos de cada reto
+  <reto>/train.csv, test.csv                             datos de cada reto
   prediccion-accidentalidad-poblado/*.sqlite3            el SQLite de 85 MB
   sesiones/                                              datasets de las clases 04 y 06
 ```
 
-Las respuestas viven en un bucket privado aparte al que solo accede la
-función que califica.
+Las respuestas del período de evaluación no son públicas.
 
 ## Notebooks de clase
 
@@ -138,10 +134,3 @@ clasificación y validación, árboles/ensambles/desbalance, series de
 tiempo, reducción de dimensionalidad/clustering, sistemas de
 recomendación). `sesion_04` y `sesion_06` incluyen datasets propios
 (bike sharing, MovieLens 100k).
-
-## Estado actual
-
-Todo desplegado y probado de punta a punta. Los 17 estudiantes del roster
-2026-1 tienen su API key generada.
-
-Pendiente: repartir las API keys a cada estudiante.

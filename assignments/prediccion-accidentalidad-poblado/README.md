@@ -35,20 +35,19 @@ Un SQLite con tres tablas:
 | `accidentes` | Parejas (barrio, hora) donde **sí** hubo al menos un accidente. |
 | `raw_accidentes` | Detalle de cada accidente (clase, gravedad, diseño vial, coordenadas, dirección). |
 
-Los datos vienen **crudos a propósito**. No hay variables de calendario
-pre-calculadas, ni agregados, ni codificaciones: si quieren hora del día,
-día de la semana, mes, festivo o cualquier otra cosa derivada de `TW`,
-las construyen ustedes. Eso es justamente lo que evalúan las secciones
-4.2 y 4.3 del taller.
+Las tablas traen la información tal como sale de la fuente: no hay
+variables de calendario, ni agregados, ni codificaciones. Si quieren hora
+del día, día de la semana, mes, festivo o cualquier otra cosa derivada de
+`TW`, las construyen ustedes.
 
-Tampoco están limpios. Hay formatos inconsistentes, faltantes y al menos
-una inconsistencia entre tablas. Encontrarlos y decidir qué hacer con
-ellos es parte del trabajo, no un accidente del enunciado.
+Tampoco están limpias. Hay formatos inconsistentes, valores faltantes e
+inconsistencias entre tablas. Detectarlos y decidir qué hacer con ellos es
+parte del trabajo.
 
 **Importante — el corte temporal.** `clima` cubre el período completo,
 pero `accidentes` y `raw_accidentes` **solo llegan hasta el 2019-07-31**.
-De ahí en adelante esas tablas no tienen filas: no porque no haya pasado
-nada, sino porque esas etiquetas son las que evalúa el leaderboard.
+De ahí en adelante esas tablas no tienen filas: son las etiquetas del
+período que deben predecir.
 
 ```
 2017-01-01                              2019-08-01        2019-12-30
@@ -70,9 +69,8 @@ SELECT BARRIO, TW FROM clima
 WHERE TW >= '2019-08-01 00:00:00' AND TW < '2019-12-31 00:00:00';
 ```
 
-Son **80.256** parejas (barrio, hora). Con esa consulta arman su propio
-archivo de predicciones — no necesitan que les demos un
-`sample_submission`.
+Son **80.256** parejas (barrio, hora). Esa consulta les da la lista exacta
+de filas que debe tener su archivo de predicciones.
 
 ## Formato de la entrega
 
@@ -131,29 +129,24 @@ interesan a nadie que quiera enviar patrullas. Un modelo con ROC-AUC de
 Para las secciones 4.5 y 4.7 del taller reporten además **precision,
 recall, la curva precision-recall y la matriz de confusión** en el umbral
 que propongan, y justifiquen ese umbral con el costo de cada tipo de
-error. Discutir la diferencia entre lo que dice el ROC-AUC y lo que dice
-la curva precision-recall en este problema es exactamente el tipo de
-análisis que se evalúa.
+error. Discutan también la diferencia entre lo que dice el ROC-AUC y lo
+que dice la curva precision-recall en este problema.
 
 ## La regla que deben respetar
 
 **Toda variable debe ser calculable en el momento de la predicción, con
 información que realmente estaría disponible en ese momento.**
 
-Esa sola frase tiene una consecuencia fuerte en este problema. Piensen
-con cuidado qué información tienen —y cuál no— para una fila del período
-de evaluación, tabla por tabla. Si una variable que les funciona muy bien
-en entrenamiento resulta imposible de calcular para diciembre de 2019,
-eso les está diciendo algo.
+Esa sola frase tiene una consecuencia fuerte en este problema. Revisen,
+tabla por tabla, qué información tienen —y cuál no— para una fila del
+período de evaluación. Si una variable les funciona muy bien en
+entrenamiento pero es imposible de calcular para diciembre de 2019, no
+pueden usarla por buen resultado que dé.
 
-El leaderboard **no puede detectar la fuga de información por sí solo**:
-un modelo con fuga puede dar buen score. Pero la revisión del notebook y
-del informe sí, y ahí se penaliza. El taller lo advierte en la sección
-4.3: *"toda variable histórica debe calcularse únicamente con información
-disponible antes del momento de predicción"*.
-
-Documenten en el informe cómo resolvieron esto. Es uno de los puntos más
-interesantes del problema.
+El taller lo formula así en la sección 4.3: *"toda variable histórica debe
+calcularse únicamente con información disponible antes del momento de
+predicción"*. Documenten en el informe cómo resolvieron este punto; se
+evalúa explícitamente.
 
 ## Cómo enviar y consultar su score
 
@@ -201,10 +194,3 @@ Un notebook ejecutable de principio a fin, en español, que contenga:
 | Caso de uso y limitaciones | 5% | Cómo se usaría en operación (turnos, mapa de calor), sesgos y límites |
 
 El PDF del taller amplía el contexto y el detalle de cada sección.
-
-## Por qué este formato es resistente a la IA
-
-Un asistente de IA puede escribirles código plausible, pero no puede
-adivinar qué parejas (barrio, hora) tuvieron accidente en un período que
-nunca ha visto. Para subir en el leaderboard hay que entrenar, validar y
-ejecutar de verdad un modelo que generalice.
