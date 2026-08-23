@@ -20,12 +20,23 @@ horaria para el último trimestre del año.
 
 ## Los datos
 
-Dos años de operación con registro horario. Descarga:
+Dos años de operación con registro horario.
 
-```bash
-curl -O https://d3qixogk4zgixq.cloudfront.net/data/demanda-bicicletas/train.csv
-curl -O https://d3qixogk4zgixq.cloudfront.net/data/demanda-bicicletas/test.csv
+**No hace falta descargar nada.** El notebook de partida lee los CSV
+directamente desde la URL, y eso funciona igual en Windows, macOS y Linux:
+
+```python
+import pandas as pd
+
+CDN = "https://d3qixogk4zgixq.cloudfront.net/data/demanda-bicicletas"
+train = pd.read_csv(f"{CDN}/train.csv")
+test  = pd.read_csv(f"{CDN}/test.csv")
 ```
+
+Si los quieren en disco, abran esas URLs en el navegador o usen la terminal:
+`curl -O <URL>` en macOS/Linux, `curl.exe -O <URL>` en CMD de Windows, o
+`Invoke-WebRequest <URL> -OutFile train.csv` en PowerShell — donde `curl`
+es un alias que **no** acepta `-O`.
 
 | Columna | Qué es |
 |---|---|
@@ -133,7 +144,7 @@ reporte un buen número sin entender de dónde salió.
 Página web (https://d3qixogk4zgixq.cloudfront.net) o terminal:
 
 ```bash
-uv run scripts/submit.py demanda-bicicletas ./mi_prediccion.csv
+uv run scripts/submit.py demanda-bicicletas mi_prediccion.csv
 uv run scripts/check_status.py demanda-bicicletas
 ```
 

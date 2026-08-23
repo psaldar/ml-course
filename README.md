@@ -6,10 +6,22 @@ minutos.
 
 ## Setup
 
+Necesitas **uv**, el gestor de entornos de Python que usa el curso.
+Instálalo una sola vez:
+
+| Sistema | Comando |
+|---|---|
+| macOS / Linux | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
+| Windows — PowerShell | `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 \| iex"` |
+
+Después, dentro de la carpeta del repositorio:
+
 ```bash
-uv sync   # instala el entorno (Python 3.12) -- lo necesitas para los
-          # notebooks de clase y para entregar por terminal
+uv sync
 ```
+
+Ese comando es igual en los tres sistemas, como todos los `uv run ...` de
+más abajo.
 
 | | |
 |---|---|
@@ -18,6 +30,10 @@ uv sync   # instala el entorno (Python 3.12) -- lo necesitas para los
 
 Ver [Cómo entregar](#cómo-entregar) más abajo — hay dos formas, elige la
 que prefieras.
+
+> **Windows, macOS o Linux.** Todo el curso funciona en los tres. Donde un
+> comando cambia según el sistema, aparece una tabla con las tres versiones.
+> Los notebooks y los comandos `uv run ...` son idénticos en todos.
 
 ## Estructura
 
@@ -65,11 +81,18 @@ importa.
 
 ### Opción B: terminal
 
-```bash
-uv sync                       # una sola vez
-cp .env.example .env          # una sola vez, con la API key que te dé el profesor
+Una sola vez, copien el archivo de configuración y peguen ahí su API key:
 
-uv run scripts/submit.py <reto> ./mi_prediccion.csv
+| Sistema | Comando |
+|---|---|
+| macOS / Linux | `cp .env.example .env` |
+| Windows — PowerShell | `Copy-Item .env.example .env` |
+| Windows — CMD | `copy .env.example .env` |
+
+De ahí en adelante, estos comandos son iguales en los tres sistemas:
+
+```bash
+uv run scripts/submit.py <reto> mi_prediccion.csv
 uv run scripts/check_status.py <reto>              # tu resultado en ese reto
 uv run scripts/check_status.py --all               # tus resultados en TODOS los retos
 uv run scripts/check_status.py <reto> --leaderboard

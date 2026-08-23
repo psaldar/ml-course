@@ -21,11 +21,27 @@ y es completamente inútil.
 
 ## Los datos
 
-Descarga (~85 MB):
+La base de datos pesa ~85 MB y sí hay que bajarla a disco. Desde Python
+—igual en Windows, macOS y Linux—:
 
-```bash
-curl -O https://d3qixogk4zgixq.cloudfront.net/data/prediccion-accidentalidad-poblado/data_accidentes_poblado.sqlite3
+```python
+import urllib.request
+
+URL = ("https://d3qixogk4zgixq.cloudfront.net/data/prediccion-accidentalidad-poblado/"
+       "data_accidentes_poblado.sqlite3")
+urllib.request.urlretrieve(URL, "data_accidentes_poblado.sqlite3")
 ```
+
+O desde la terminal, según su sistema:
+
+| Sistema | Comando |
+|---|---|
+| macOS / Linux | `curl -O <URL>` |
+| Windows — PowerShell | `Invoke-WebRequest <URL> -OutFile data_accidentes_poblado.sqlite3` |
+| Windows — CMD | `curl.exe -O <URL>` |
+
+> En PowerShell, `curl` es un alias de `Invoke-WebRequest` y **no** acepta
+> `-O`. Por eso arriba va `curl.exe` (con la extensión) o el comando nativo.
 
 Un SQLite con tres tablas:
 
@@ -154,7 +170,7 @@ Desde la raíz de este repo, con su `.env` configurado (ver el README
 principal):
 
 ```bash
-uv run scripts/submit.py prediccion-accidentalidad-poblado ./mi_prediccion.csv
+uv run scripts/submit.py prediccion-accidentalidad-poblado mi_prediccion.csv
 uv run scripts/check_status.py prediccion-accidentalidad-poblado
 ```
 
