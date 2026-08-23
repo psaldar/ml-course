@@ -23,3 +23,10 @@ dev = [
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+
+[tool.ruff.lint.per-file-ignores]
+# Los notebooks de clase importan a propósito lo que el estudiante va a
+# necesitar en el ejercicio de cierre. Como las soluciones no viven en
+# este repo, esos imports quedan "sin usar" a ojos del linter: quitarlos
+# obligaría al estudiante a adivinar qué importar.
+"notebooks/*/clase.ipynb" = ["F401"]
