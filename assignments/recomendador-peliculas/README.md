@@ -100,10 +100,10 @@ primero.
 
 | Resultado | Puntaje de esta etapa |
 |---|---|
-| No supera la media global (RMSE ≥ 1.2079) | 0 – 50% |
-| Supera la media global | 60% |
+| No supera la media global (RMSE ≥ 1.2079) | 0 – 60%, proporcional al score |
+| Iguala la media global (1.2079) | 60% |
 | Entre la media global y el baseline del profesor | 60 – 90% (interpolado) |
-| Supera el baseline del profesor (RMSE < 0.9683) | 90 – 100% |
+| Iguala o supera el baseline del profesor (RMSE ≤ 0.9683) | 90 – 100% |
 | Top-3 del curso | 100% |
 
 Pueden entregar las veces que quieran; cuenta la última.

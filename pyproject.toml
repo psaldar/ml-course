@@ -28,5 +28,7 @@ target-version = "py312"
 # Los notebooks de clase importan a propósito lo que el estudiante va a
 # necesitar en el ejercicio de cierre. Como las soluciones no viven en
 # este repo, esos imports quedan "sin usar" a ojos del linter: quitarlos
-# obligaría al estudiante a adivinar qué importar.
-"notebooks/*/clase.ipynb" = ["F401"]
+# obligaría al estudiante a adivinar qué importar. F811 por la misma razón:
+# el bloque de ejercicio reimporta lo que ya se importó arriba en el
+# notebook, para que corra solo si el estudiante ejecuta desde ahí.
+"notebooks/*/clase.ipynb" = ["F401", "F811"]

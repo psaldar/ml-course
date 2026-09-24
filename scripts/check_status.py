@@ -13,9 +13,12 @@ from __future__ import annotations
 import argparse
 import os
 import sys
+from pathlib import Path
 
 import requests
 from dotenv import load_dotenv
+
+RETOS = Path(__file__).resolve().parents[1] / "assignments"
 
 
 def main() -> None:
@@ -27,8 +30,11 @@ def main() -> None:
     parser.add_argument("--all", action="store_true", help="Lista todas tus entregas, en cualquier reto")
     args = parser.parse_args()
 
-    if not args.all and not args.leaderboard and not args.assignment_slug:
+    if not args.all and not args.assignment_slug:
         sys.exit("Falta el nombre del reto, o usa --all para ver todas tus entregas.")
+
+    if args.assignment_slug:
+        _validar_slug(args.assignment_slug)
 
     api_url = _require_env("ML_COURSE_API_URL")
     api_key = _require_env("ML_COURSE_API_KEY")
@@ -82,6 +88,18 @@ def _imprimir(s: dict) -> None:
     if "error" in s:
         print(f"error      : {s['error']}")
     print()
+
+
+def _validar_slug(slug: str) -> None:
+    """El backend responde 200 con un leaderboard vacío para un reto que no
+    existe, así que un slug mal escrito se vería igual que un reto sin
+    entregas. Lo atajamos aquí contra las carpetas de `assignments/`."""
+    validos = sorted(d.name for d in RETOS.iterdir() if d.is_dir())
+    if slug not in validos:
+        sys.exit(
+            f"No existe el reto '{slug}'. Los retos son:\n"
+            + "\n".join(f"  - {v}" for v in validos)
+        )
 
 
 def _require_env(name: str) -> str:

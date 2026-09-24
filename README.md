@@ -23,6 +23,11 @@ uv sync
 Ese comando es igual en los tres sistemas, como todos los `uv run ...` de
 más abajo.
 
+Después, abre [`00_verificacion_entorno.ipynb`](00_verificacion_entorno.ipynb)
+y ejecútalo completo ("Run All"): confirma que Python, las librerías y la
+conexión a los servicios del curso quedaron bien configurados, **antes**
+de la primera clase.
+
 | | |
 |---|---|
 | **Leaderboard + entregas por la web** | https://d3qixogk4zgixq.cloudfront.net |
@@ -38,6 +43,7 @@ que prefieras.
 ## Estructura
 
 ```
+00_verificacion_entorno.ipynb    corre esto antes de la primera clase
 modules/            material teórico por módulo/semana
 notebooks/           notebooks exploratorios de clase
 assignments/
@@ -122,8 +128,8 @@ uno. Uno por fin de semana.
 
 **Etapa 1 — Leaderboard (40% del reto).** Suben su CSV de predicciones y el
 sistema lo califica solo contra un conjunto de respuestas que nunca ven. La
-nota sale de umbrales absolutos, no de la posición relativa: superar el
-baseline trivial da 60%, superar el baseline del profesor da 90%+, el top-3
+nota sale de umbrales absolutos, no de la posición relativa: igualar el
+baseline trivial da 60%, igualar el baseline del profesor da 90%+, el top-3
 da 100%. Pueden entregar las veces que quieran.
 
 **Etapa 2 — Notebook (60% del reto).** Un notebook ejecutable y documentado
@@ -145,7 +151,7 @@ notebooks de clase bajan sus datasets solos al ejecutarse.
 https://d3qixogk4zgixq.cloudfront.net/data/
   <reto>/train.csv, test.csv                             datos de cada reto
   prediccion-accidentalidad-poblado/*.sqlite3            el SQLite de 85 MB
-  sesiones/                                              datasets de las clases 04 y 06
+  sesiones/                                              datasets de las clases 03 y 04
 ```
 
 Las respuestas del período de evaluación no son públicas.
@@ -157,11 +163,10 @@ de ejercicio** sobre el notebook de la sesión.
 
 | # | Sesión | Tema |
 |---|---|---|
-| 1 | `sesion_01_fundamentos_regresion` | Fundamentos de ML y regresión |
-| 2 | `sesion_02_clasificacion_validacion` | Clasificación, sesgo-varianza y validación |
-| 3 | `sesion_03_arboles_ensambles_desbalance` | Árboles, ensambles y desbalance |
-| 4 | `sesion_04_series_de_tiempo` | Series de tiempo |
-| 5 | `sesion_05_sistemas_recomendacion` | Sistemas de recomendación |
-| 6 | `sesion_06_reduccion_clustering` | Reducción de dimensionalidad y clustering |
+| 1 | `sesion_01_fundamentos_regresion_clasificacion` | Fundamentos de ML, regresión y clasificación |
+| 2 | `sesion_02_sesgo_varianza_arboles_ensamble` | Sesgo-varianza, validación, árboles y ensambles |
+| 3 | `sesion_03_desbalance_series_tiempo` | Desbalance de clases y series de tiempo |
+| 4 | `sesion_04_sistemas_recomendacion` | Sistemas de recomendación |
+| 5 | `sesion_05_reduccion_clustering` | Reducción de dimensionalidad y clustering |
 
 El ejercicio de cada notebook está dividido en 3 partes de 10 minutos.

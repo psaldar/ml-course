@@ -187,10 +187,10 @@ uv run scripts/check_status.py prediccion-accidentalidad-poblado --leaderboard
 
 | Resultado | Puntaje de esta etapa |
 |---|---|
-| No supera la tasa histórica (ROC-AUC ≤ 0.7589) | 0 – 50% |
-| Supera la tasa histórica | 60% |
+| No supera la tasa histórica (ROC-AUC ≤ 0.7589) | 0 – 60%, proporcional al score |
+| Iguala la tasa histórica (0.7589) | 60% |
 | Entre la tasa histórica y el baseline del profesor | 60 – 90% (interpolado) |
-| Supera el baseline del profesor (ROC-AUC > 0.7739) | 90 – 100% |
+| Iguala o supera el baseline del profesor (ROC-AUC ≥ 0.7739) | 90 – 100% |
 | Top-3 del curso | 100% |
 
 Pueden entregar las veces que quieran; cuenta la última.
@@ -210,3 +210,5 @@ Un notebook ejecutable de principio a fin, en español, que contenga:
 | Caso de uso y limitaciones | 5% | Cómo se usaría en operación (turnos, mapa de calor), sesgos y límites |
 
 El PDF del taller amplía el contexto y el detalle de cada sección.
+
+El notebook se entrega por EAFIT Interactiva.

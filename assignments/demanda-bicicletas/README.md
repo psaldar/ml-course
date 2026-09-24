@@ -114,10 +114,10 @@ ustedes mismos el primer día y midan todo contra él.
 
 | Resultado | Puntaje de esta etapa |
 |---|---|
-| No supera el baseline trivial (RMSE ≥ 121.21) | 0 – 50% |
-| Supera el baseline trivial | 60% |
+| No supera el baseline trivial (RMSE ≥ 121.21) | 0 – 60%, proporcional al score |
+| Iguala el baseline trivial (121.21) | 60% |
 | Entre el trivial y el del profesor | 60 – 90% (interpolado) |
-| Supera el baseline del profesor (RMSE < 82.43) | 90 – 100% |
+| Iguala o supera el baseline del profesor (RMSE ≤ 82.43) | 90 – 100% |
 | Top-3 del curso | 100% |
 
 Pueden entregar las veces que quieran; cuenta la última.
@@ -130,10 +130,10 @@ Un notebook ejecutable de principio a fin, en español, que contenga:
 |---|---|---|
 | Exploración y calidad de datos | 10% | Estacionalidades encontradas (diaria, semanal, anual), efecto del clima, valores atípicos |
 | Ingeniería de características | 15% | Qué construyeron desde `dteday` y por qué; codificación cíclica; justificación |
-| Validación | 15% | Por qué una partición aleatoria sería un error aquí; cómo montaron la validación temporal |
+| **Validación** | 10% | Por qué una partición aleatoria sería un error aquí; cómo montaron la validación temporal |
 | Modelado | 10% | Modelos comparados, hiperparámetros, criterio de selección |
 | **Análisis de errores** | 10% | ¿En qué horas/días falla más? ¿Sub o sobre-estima? ¿Por qué? |
-| Interpretación y caso de uso | 10% | Qué variables pesan, qué haría el operador con esto, limitaciones honestas |
+| Interpretación y caso de uso | 5% | Qué variables pesan, qué haría el operador con esto, limitaciones honestas |
 
 **Lo que más pesa no es el score, es el razonamiento.** Un notebook que
 explique con claridad por qué un modelo fracasó vale más que uno que

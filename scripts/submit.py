@@ -20,6 +20,8 @@ from pathlib import Path
 import requests
 from dotenv import load_dotenv
 
+RETOS = Path(__file__).resolve().parents[1] / "assignments"
+
 
 def main() -> None:
     load_dotenv()
@@ -28,6 +30,8 @@ def main() -> None:
     parser.add_argument("assignment_slug")
     parser.add_argument("predictions_csv", type=Path)
     args = parser.parse_args()
+
+    _validar_slug(args.assignment_slug)
 
     api_url = _require_env("ML_COURSE_API_URL")
     api_key = _require_env("ML_COURSE_API_KEY")
@@ -54,6 +58,17 @@ def main() -> None:
           f"'{args.assignment_slug}'.")
     print("La calificación tarda unos segundos. Revisa tu score con:")
     print(f"  uv run scripts/check_status.py {args.assignment_slug}")
+
+
+def _validar_slug(slug: str) -> None:
+    """Atajamos un slug mal escrito antes de subir el CSV: si no, la entrega
+    se iría a un reto inexistente sin más aviso."""
+    validos = sorted(d.name for d in RETOS.iterdir() if d.is_dir())
+    if slug not in validos:
+        sys.exit(
+            f"No existe el reto '{slug}'. Los retos son:\n"
+            + "\n".join(f"  - {v}" for v in validos)
+        )
 
 
 def _require_env(name: str) -> str:
