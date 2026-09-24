@@ -6,7 +6,10 @@ minutos.
 
 ## Setup
 
-Necesitas **uv**, el gestor de entornos de Python que usa el curso.
+Necesitas **uv**, el gestor de entornos y dependencias de Python que usa
+el curso. Reemplaza `venv` + `pip` + `requirements.txt`: no hay que crear
+ni activar un entorno a mano, ni instalar paquetes uno por uno.
+
 Instálalo una sola vez:
 
 | Sistema | Comando |
@@ -20,8 +23,26 @@ Después, dentro de la carpeta del repositorio:
 uv sync
 ```
 
-Ese comando es igual en los tres sistemas, como todos los `uv run ...` de
+Ese comando lee [`pyproject.toml`](pyproject.toml) —ahí están declaradas
+**todas** las dependencias del curso, no hay `requirements.txt`—, crea un
+entorno virtual en `.venv/` dentro del repo, e instala exactamente esas
+versiones. Es igual en los tres sistemas, como todos los `uv run ...` de
 más abajo.
+
+### Abriendo los notebooks con el kernel correcto
+
+No hace falta activar el entorno a mano. Dos formas de abrir un notebook
+usando el `.venv` que acaba de crear `uv sync`:
+
+- **Terminal:** `uv run jupyter lab` desde la carpeta del repo — abre
+  Jupyter ya con el kernel correcto seleccionado.
+- **VS Code u otro editor:** abre el notebook y, al elegir el kernel,
+  selecciona el que está **dentro de la carpeta `.venv` del repo**
+  (Python 3.12) — no el Python global del sistema.
+
+Si una celda falla con `ModuleNotFoundError` aunque `uv sync` haya
+terminado bien, casi siempre es que el kernel activo no es el de
+`.venv`.
 
 Después, abre [`00_verificacion_entorno.ipynb`](00_verificacion_entorno.ipynb)
 y ejecútalo completo ("Run All"): confirma que Python, las librerías y la
