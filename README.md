@@ -5,9 +5,7 @@ Maestría en Ciencia de Datos y Analítica, Universidad EAFIT.
 **Profesor:** Pablo Saldarriaga — psaldar2@eafit.edu.co
 **Inicio de clases:** 25 de septiembre de 2026 · **Fin de curso:** 10 de octubre de 2026
 
-Material, notebooks y retos del curso. Los retos se califican
-automáticamente: suben sus predicciones y reciben el score en minutos —
-ver [assignments/README.md](assignments/README.md) para el detalle.
+Material y notebooks del curso.
 
 ## Setup
 
@@ -77,27 +75,6 @@ scripts/
   check_status.py       consulta tu score / leaderboard
 ```
 
-## Los retos calificados
-
-Los retos son la **nota de seguimiento del curso: 45% en total**, 15%
-cada uno, uno por fin de semana, y se van liberando progresivamente a
-medida que avanza el curso. Cómo funcionan, cómo entregar, y el detalle
-de cada uno están en [assignments/README.md](assignments/README.md).
-
-## Los datos
-
-**Este repositorio no contiene datos.** Se descargan del almacenamiento
-del curso: el README de cada reto trae su comando de descarga, y los
-notebooks de clase bajan sus datasets solos al ejecutarse.
-
-```
-https://d3qixogk4zgixq.cloudfront.net/data/
-  <reto>/train.csv, test.csv                             datos de cada reto
-  sesiones/                                              datasets de las clases
-```
-
-Las respuestas del período de evaluación no son públicas.
-
 ## Notebooks de clase
 
 Cada sesión son 4 horas: 3 h de exposición, 30 min de descanso y **30 min
@@ -106,7 +83,6 @@ de ejercicio** sobre el notebook de la sesión.
 | # | Sesión | Tema |
 |---|---|---|
 | 1 | `sesion_01_fundamentos_regresion_clasificacion` | Fundamentos de ML, regresión y clasificación |
-| 2 | `sesion_02_sesgo_varianza_arboles_ensamble` | Sesgo-varianza, validación, árboles y ensambles |
 
 Las siguientes sesiones se agregan a medida que avanza el curso.
 
