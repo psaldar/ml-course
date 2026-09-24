@@ -1,4 +1,4 @@
-# Reto 1 — Predicción de accidentalidad vial
+# Reto 2 — Predicción de accidentalidad vial
 
 **Clasificación con clases desbalanceadas · 15% de la nota del curso**
 
@@ -21,11 +21,27 @@ y es completamente inútil.
 
 ## Los datos
 
-Descarga (~85 MB):
+La base de datos pesa ~85 MB y sí hay que bajarla a disco. Desde Python
+—igual en Windows, macOS y Linux—:
 
-```bash
-curl -O https://d3qixogk4zgixq.cloudfront.net/data/prediccion-accidentalidad-poblado/data_accidentes_poblado.sqlite3
+```python
+import urllib.request
+
+URL = ("https://d3qixogk4zgixq.cloudfront.net/data/prediccion-accidentalidad-poblado/"
+       "data_accidentes_poblado.sqlite3")
+urllib.request.urlretrieve(URL, "data_accidentes_poblado.sqlite3")
 ```
+
+O desde la terminal, según su sistema:
+
+| Sistema | Comando |
+|---|---|
+| macOS / Linux | `curl -O <URL>` |
+| Windows — PowerShell | `Invoke-WebRequest <URL> -OutFile data_accidentes_poblado.sqlite3` |
+| Windows — CMD | `curl.exe -O <URL>` |
+
+> En PowerShell, `curl` es un alias de `Invoke-WebRequest` y **no** acepta
+> `-O`. Por eso arriba va `curl.exe` (con la extensión) o el comando nativo.
 
 Un SQLite con tres tablas:
 
@@ -154,7 +170,7 @@ Desde la raíz de este repo, con su `.env` configurado (ver el README
 principal):
 
 ```bash
-uv run scripts/submit.py prediccion-accidentalidad-poblado ./mi_prediccion.csv
+uv run scripts/submit.py prediccion-accidentalidad-poblado mi_prediccion.csv
 uv run scripts/check_status.py prediccion-accidentalidad-poblado
 ```
 
@@ -171,10 +187,10 @@ uv run scripts/check_status.py prediccion-accidentalidad-poblado --leaderboard
 
 | Resultado | Puntaje de esta etapa |
 |---|---|
-| No supera la tasa histórica (ROC-AUC ≤ 0.7589) | 0 – 50% |
-| Supera la tasa histórica | 60% |
+| No supera la tasa histórica (ROC-AUC ≤ 0.7589) | 0 – 60%, proporcional al score |
+| Iguala la tasa histórica (0.7589) | 60% |
 | Entre la tasa histórica y el baseline del profesor | 60 – 90% (interpolado) |
-| Supera el baseline del profesor (ROC-AUC > 0.7739) | 90 – 100% |
+| Iguala o supera el baseline del profesor (ROC-AUC ≥ 0.7739) | 90 – 100% |
 | Top-3 del curso | 100% |
 
 Pueden entregar las veces que quieran; cuenta la última.
@@ -194,3 +210,5 @@ Un notebook ejecutable de principio a fin, en español, que contenga:
 | Caso de uso y limitaciones | 5% | Cómo se usaría en operación (turnos, mapa de calor), sesgos y límites |
 
 El PDF del taller amplía el contexto y el detalle de cada sección.
+
+El notebook se entrega por EAFIT Interactiva.

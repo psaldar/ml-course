@@ -16,13 +16,24 @@ encuentra qué ver y se queda; si falla, recomienda ruido y el usuario se va.
 ## Los datos
 
 100.000 calificaciones reales de 943 usuarios sobre 1.682 películas
-(MovieLens). Descarga:
+(MovieLens).
 
-```bash
-curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/train.csv
-curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/test.csv
-curl -O https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas/movies.csv
+**No hace falta descargar nada.** El notebook de partida lee los CSV
+directamente desde la URL, y eso funciona igual en Windows, macOS y Linux:
+
+```python
+import pandas as pd
+
+CDN = "https://d3qixogk4zgixq.cloudfront.net/data/recomendador-peliculas"
+train = pd.read_csv(f"{CDN}/train.csv")
+test  = pd.read_csv(f"{CDN}/test.csv")
+movies = pd.read_csv(f"{CDN}/movies.csv")
 ```
+
+Si los quieren en disco, abran esas URLs en el navegador o usen la terminal:
+`curl -O <URL>` en macOS/Linux, `curl.exe -O <URL>` en CMD de Windows, o
+`Invoke-WebRequest <URL> -OutFile train.csv` en PowerShell — donde `curl`
+es un alias que **no** acepta `-O`.
 
 | Archivo | Contenido |
 |---|---|
@@ -89,10 +100,10 @@ primero.
 
 | Resultado | Puntaje de esta etapa |
 |---|---|
-| No supera la media global (RMSE ≥ 1.2079) | 0 – 50% |
-| Supera la media global | 60% |
+| No supera la media global (RMSE ≥ 1.2079) | 0 – 60%, proporcional al score |
+| Iguala la media global (1.2079) | 60% |
 | Entre la media global y el baseline del profesor | 60 – 90% (interpolado) |
-| Supera el baseline del profesor (RMSE < 0.9683) | 90 – 100% |
+| Iguala o supera el baseline del profesor (RMSE ≤ 0.9683) | 90 – 100% |
 | Top-3 del curso | 100% |
 
 Pueden entregar las veces que quieran; cuenta la última.
@@ -115,7 +126,7 @@ Un notebook ejecutable de principio a fin, en español, que contenga:
 Página web (https://d3qixogk4zgixq.cloudfront.net) o terminal:
 
 ```bash
-uv run scripts/submit.py recomendador-peliculas ./mi_prediccion.csv
+uv run scripts/submit.py recomendador-peliculas mi_prediccion.csv
 uv run scripts/check_status.py recomendador-peliculas
 ```
 

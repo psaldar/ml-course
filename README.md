@@ -6,10 +6,27 @@ minutos.
 
 ## Setup
 
+Necesitas **uv**, el gestor de entornos de Python que usa el curso.
+Instálalo una sola vez:
+
+| Sistema | Comando |
+|---|---|
+| macOS / Linux | `curl -LsSf https://astral.sh/uv/install.sh \| sh` |
+| Windows — PowerShell | `powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 \| iex"` |
+
+Después, dentro de la carpeta del repositorio:
+
 ```bash
-uv sync   # instala el entorno (Python 3.12) -- lo necesitas para los
-          # notebooks de clase y para entregar por terminal
+uv sync
 ```
+
+Ese comando es igual en los tres sistemas, como todos los `uv run ...` de
+más abajo.
+
+Después, abre [`00_verificacion_entorno.ipynb`](00_verificacion_entorno.ipynb)
+y ejecútalo completo ("Run All"): confirma que Python, las librerías y la
+conexión a los servicios del curso quedaron bien configurados, **antes**
+de la primera clase.
 
 | | |
 |---|---|
@@ -19,9 +36,14 @@ uv sync   # instala el entorno (Python 3.12) -- lo necesitas para los
 Ver [Cómo entregar](#cómo-entregar) más abajo — hay dos formas, elige la
 que prefieras.
 
+> **Windows, macOS o Linux.** Todo el curso funciona en los tres. Donde un
+> comando cambia según el sistema, aparece una tabla con las tres versiones.
+> Los notebooks y los comandos `uv run ...` son idénticos en todos.
+
 ## Estructura
 
 ```
+00_verificacion_entorno.ipynb    corre esto antes de la primera clase
 modules/            material teórico por módulo/semana
 notebooks/           notebooks exploratorios de clase
 assignments/
@@ -65,11 +87,18 @@ importa.
 
 ### Opción B: terminal
 
-```bash
-uv sync                       # una sola vez
-cp .env.example .env          # una sola vez, con la API key que te dé el profesor
+Una sola vez, copien el archivo de configuración y peguen ahí su API key:
 
-uv run scripts/submit.py <reto> ./mi_prediccion.csv
+| Sistema | Comando |
+|---|---|
+| macOS / Linux | `cp .env.example .env` |
+| Windows — PowerShell | `Copy-Item .env.example .env` |
+| Windows — CMD | `copy .env.example .env` |
+
+De ahí en adelante, estos comandos son iguales en los tres sistemas:
+
+```bash
+uv run scripts/submit.py <reto> mi_prediccion.csv
 uv run scripts/check_status.py <reto>              # tu resultado en ese reto
 uv run scripts/check_status.py --all               # tus resultados en TODOS los retos
 uv run scripts/check_status.py <reto> --leaderboard
@@ -91,16 +120,16 @@ uno. Uno por fin de semana.
 
 | # | Reto | Tipo | Métrica | Peso |
 |---|---|---|---|---|
-| 1 | [Predicción de accidentalidad](assignments/prediccion-accidentalidad-poblado/) | Clasificación desbalanceada (~2% positivos), datos en SQLite | `roc_auc` | 15% |
-| 2 | [Demanda de bicicletas](assignments/demanda-bicicletas/) | Regresión con corte temporal, 17k horas | `rmse` | 15% |
+| 1 | [Tasación de diamantes](assignments/tasacion-diamantes/) | Regresión, split aleatorio, 43k diamantes | `rmse` | 15% |
+| 2 | [Predicción de accidentalidad](assignments/prediccion-accidentalidad-poblado/) | Clasificación desbalanceada (~2% positivos), datos en SQLite | `roc_auc` | 15% |
 | 3 | [Recomendador de películas](assignments/recomendador-peliculas/) | Filtrado colaborativo, corte temporal por usuario | `rmse` | 15% |
 
 ### Cada reto tiene dos etapas
 
 **Etapa 1 — Leaderboard (40% del reto).** Suben su CSV de predicciones y el
 sistema lo califica solo contra un conjunto de respuestas que nunca ven. La
-nota sale de umbrales absolutos, no de la posición relativa: superar el
-baseline trivial da 60%, superar el baseline del profesor da 90%+, el top-3
+nota sale de umbrales absolutos, no de la posición relativa: igualar el
+baseline trivial da 60%, igualar el baseline del profesor da 90%+, el top-3
 da 100%. Pueden entregar las veces que quieran.
 
 **Etapa 2 — Notebook (60% del reto).** Un notebook ejecutable y documentado
@@ -109,8 +138,10 @@ validación, análisis de errores e interpretación. **Pesa más que el score**
 — un buen número sin entender de dónde salió no alcanza. El README de cada
 reto trae la rúbrica detallada.
 
-En los tres, los datos llegan tal como salen de la fuente y la evaluación
-usa un **corte temporal**: se entrena con el pasado y se predice el futuro.
+En los tres, los datos llegan tal como salen de la fuente. En Predicción
+de accidentalidad y Recomendador de películas la evaluación usa un
+**corte temporal** (se entrena con el pasado y se predice el futuro); en
+Tasación de diamantes no hay componente temporal y el split es aleatorio.
 
 ## Los datos
 
@@ -122,15 +153,22 @@ notebooks de clase bajan sus datasets solos al ejecutarse.
 https://d3qixogk4zgixq.cloudfront.net/data/
   <reto>/train.csv, test.csv                             datos de cada reto
   prediccion-accidentalidad-poblado/*.sqlite3            el SQLite de 85 MB
-  sesiones/                                              datasets de las clases 04 y 06
+  sesiones/                                              datasets de las clases 03 y 04
 ```
 
 Las respuestas del período de evaluación no son públicas.
 
 ## Notebooks de clase
 
-`notebooks/sesion_01` a `sesion_06` — material de las sesiones (regresión,
-clasificación y validación, árboles/ensambles/desbalance, series de
-tiempo, reducción de dimensionalidad/clustering, sistemas de
-recomendación). `sesion_04` y `sesion_06` incluyen datasets propios
-(bike sharing, MovieLens 100k).
+Cada sesión son 4 horas: 3 h de exposición, 30 min de descanso y **30 min
+de ejercicio** sobre el notebook de la sesión.
+
+| # | Sesión | Tema |
+|---|---|---|
+| 1 | `sesion_01_fundamentos_regresion_clasificacion` | Fundamentos de ML, regresión y clasificación |
+| 2 | `sesion_02_sesgo_varianza_arboles_ensamble` | Sesgo-varianza, validación, árboles y ensambles |
+| 3 | `sesion_03_desbalance_series_tiempo` | Desbalance de clases y series de tiempo |
+| 4 | `sesion_04_sistemas_recomendacion` | Sistemas de recomendación |
+| 5 | `sesion_05_reduccion_clustering` | Reducción de dimensionalidad y clustering |
+
+El ejercicio de cada notebook está dividido en 3 partes de 10 minutos.
