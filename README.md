@@ -116,13 +116,12 @@ en texto plano).
 ## Los 3 retos
 
 Los retos son la **nota de seguimiento del curso: 45% en total**, 15% cada
-uno. Uno por fin de semana.
+uno. Uno por fin de semana, y se van liberando progresivamente a medida
+que avanza el curso — acá solo aparece el que ya está disponible.
 
 | # | Reto | Tipo | Métrica | Peso |
 |---|---|---|---|---|
 | 1 | [Tasación de diamantes](assignments/tasacion-diamantes/) | Regresión, split aleatorio, 43k diamantes | `rmse` | 15% |
-| 2 | [Predicción de accidentalidad](assignments/prediccion-accidentalidad-poblado/) | Clasificación desbalanceada (~2% positivos), datos en SQLite | `roc_auc` | 15% |
-| 3 | [Recomendador de películas](assignments/recomendador-peliculas/) | Filtrado colaborativo, corte temporal por usuario | `rmse` | 15% |
 
 ### Cada reto tiene dos etapas
 
@@ -138,10 +137,8 @@ validación, análisis de errores e interpretación. **Pesa más que el score**
 — un buen número sin entender de dónde salió no alcanza. El README de cada
 reto trae la rúbrica detallada.
 
-En los tres, los datos llegan tal como salen de la fuente. En Predicción
-de accidentalidad y Recomendador de películas la evaluación usa un
-**corte temporal** (se entrena con el pasado y se predice el futuro); en
-Tasación de diamantes no hay componente temporal y el split es aleatorio.
+Los datos llegan tal como salen de la fuente. Tasación de diamantes no
+tiene componente temporal: el split entre train y test es aleatorio.
 
 ## Los datos
 
@@ -152,8 +149,7 @@ notebooks de clase bajan sus datasets solos al ejecutarse.
 ```
 https://d3qixogk4zgixq.cloudfront.net/data/
   <reto>/train.csv, test.csv                             datos de cada reto
-  prediccion-accidentalidad-poblado/*.sqlite3            el SQLite de 85 MB
-  sesiones/                                              datasets de las clases 03 y 04
+  sesiones/                                              datasets de las clases
 ```
 
 Las respuestas del período de evaluación no son públicas.
@@ -167,8 +163,7 @@ de ejercicio** sobre el notebook de la sesión.
 |---|---|---|
 | 1 | `sesion_01_fundamentos_regresion_clasificacion` | Fundamentos de ML, regresión y clasificación |
 | 2 | `sesion_02_sesgo_varianza_arboles_ensamble` | Sesgo-varianza, validación, árboles y ensambles |
-| 3 | `sesion_03_desbalance_series_tiempo` | Desbalance de clases y series de tiempo |
-| 4 | `sesion_04_sistemas_recomendacion` | Sistemas de recomendación |
-| 5 | `sesion_05_reduccion_clustering` | Reducción de dimensionalidad y clustering |
+
+Las siguientes sesiones se agregan a medida que avanza el curso.
 
 El ejercicio de cada notebook está dividido en 3 partes de 10 minutos.
