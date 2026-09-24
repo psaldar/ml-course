@@ -1,4 +1,4 @@
-# Reto 1 — Predicción de accidentalidad vial
+# Reto 2 — Predicción de accidentalidad vial
 
 **Clasificación con clases desbalanceadas · 15% de la nota del curso**
 

@@ -120,8 +120,8 @@ uno. Uno por fin de semana.
 
 | # | Reto | Tipo | Métrica | Peso |
 |---|---|---|---|---|
-| 1 | [Predicción de accidentalidad](assignments/prediccion-accidentalidad-poblado/) | Clasificación desbalanceada (~2% positivos), datos en SQLite | `roc_auc` | 15% |
-| 2 | [Demanda de bicicletas](assignments/demanda-bicicletas/) | Regresión con corte temporal, 17k horas | `rmse` | 15% |
+| 1 | [Tasación de diamantes](assignments/tasacion-diamantes/) | Regresión, split aleatorio, 43k diamantes | `rmse` | 15% |
+| 2 | [Predicción de accidentalidad](assignments/prediccion-accidentalidad-poblado/) | Clasificación desbalanceada (~2% positivos), datos en SQLite | `roc_auc` | 15% |
 | 3 | [Recomendador de películas](assignments/recomendador-peliculas/) | Filtrado colaborativo, corte temporal por usuario | `rmse` | 15% |
 
 ### Cada reto tiene dos etapas
@@ -138,8 +138,10 @@ validación, análisis de errores e interpretación. **Pesa más que el score**
 — un buen número sin entender de dónde salió no alcanza. El README de cada
 reto trae la rúbrica detallada.
 
-En los tres, los datos llegan tal como salen de la fuente y la evaluación
-usa un **corte temporal**: se entrena con el pasado y se predice el futuro.
+En los tres, los datos llegan tal como salen de la fuente. En Predicción
+de accidentalidad y Recomendador de películas la evaluación usa un
+**corte temporal** (se entrena con el pasado y se predice el futuro); en
+Tasación de diamantes no hay componente temporal y el split es aleatorio.
 
 ## Los datos
 
