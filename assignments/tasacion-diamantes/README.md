@@ -46,10 +46,6 @@ es un alias que **no** acepta `-O`.
 | `x`, `y`, `z` | Largo, ancho y profundidad en mm |
 | `price` | **Variable objetivo**: precio de venta — solo en train |
 
-Es un corte transversal, no una serie de tiempo: **no hay componente
-temporal** y la partición train/test es aleatoria. Eso no lo hace un reto
-menor — la dificultad está en los datos mismos.
-
 ### Dos cosas que van a encontrar
 
 **Medidas físicamente imposibles.** Algunas filas traen `x`, `y` o `z` en
