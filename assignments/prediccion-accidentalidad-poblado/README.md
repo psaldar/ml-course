@@ -72,9 +72,9 @@ período que deben predecir.
                                             | accidentes: OCULTOS
 ```
 
-Como el propio taller explica (sección 2.3), `accidentes` solo trae los
-positivos: los casos negativos los construyen ustedes cruzando contra
-`clima`, que sí cubre todas las combinaciones.
+`accidentes` solo trae los positivos: los casos negativos los construyen
+ustedes cruzando contra `clima`, que sí cubre todas las combinaciones
+(barrio, hora).
 
 ## Qué deben predecir
 
@@ -142,11 +142,12 @@ premia ordenar bien los negativos, que son el 98% de los datos y no le
 interesan a nadie que quiera enviar patrullas. Un modelo con ROC-AUC de
 0.77 puede tener una precisión bajísima en el umbral que ustedes elijan.
 
-Para las secciones 4.5 y 4.7 del taller reporten además **precision,
-recall, la curva precision-recall y la matriz de confusión** en el umbral
-que propongan, y justifiquen ese umbral con el costo de cada tipo de
-error. Discutan también la diferencia entre lo que dice el ROC-AUC y lo
-que dice la curva precision-recall en este problema.
+En el informe reporten además **precision, recall, la curva
+precision-recall y la matriz de confusión** en el umbral que propongan,
+y justifiquen ese umbral con el costo de cada tipo de error (¿qué cuesta
+más: una patrulla enviada de más, o un accidente no anticipado?).
+Discutan también la diferencia entre lo que dice el ROC-AUC y lo que
+dice la curva precision-recall en este problema.
 
 ## La regla que deben respetar
 
@@ -159,10 +160,8 @@ período de evaluación. Si una variable les funciona muy bien en
 entrenamiento pero es imposible de calcular para diciembre de 2019, no
 pueden usarla por buen resultado que dé.
 
-El taller lo formula así en la sección 4.3: *"toda variable histórica debe
-calcularse únicamente con información disponible antes del momento de
-predicción"*. Documenten en el informe cómo resolvieron este punto; se
-evalúa explícitamente.
+Documenten en el informe cómo resolvieron este punto; se evalúa
+explícitamente.
 
 ## Cómo enviar y consultar su score
 
@@ -208,7 +207,5 @@ Un notebook ejecutable de principio a fin, en español, que contenga:
 | Validación | 5% | Partición temporal; por qué una aleatoria sería un error |
 | Métricas más allá del ROC-AUC | 5% | Precision, recall, curva PR y matriz de confusión en el umbral elegido |
 | Caso de uso y limitaciones | 5% | Cómo se usaría en operación (turnos, mapa de calor), sesgos y límites |
-
-El PDF del taller amplía el contexto y el detalle de cada sección.
 
 El notebook se entrega por EAFIT Interactiva.
