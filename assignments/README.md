@@ -72,6 +72,7 @@ en texto plano).
 | # | Reto | Tipo | Métrica | Peso |
 |---|---|---|---|---|
 | 1 | [Tasación de diamantes](tasacion-diamantes/) | Regresión, split aleatorio, 43k diamantes | `rmse` | 15% |
+| 2 | [Predicción de accidentalidad](prediccion-accidentalidad-poblado/) | Clasificación desbalanceada (~2% positivos), datos en SQLite | `roc_auc` | 15% |
 
 ### Cada reto tiene dos etapas
 
@@ -87,5 +88,7 @@ validación, análisis de errores e interpretación. **Pesa más que el score**
 — un buen número sin entender de dónde salió no alcanza. El README de cada
 reto trae la rúbrica detallada.
 
-Los datos llegan tal como salen de la fuente. Tasación de diamantes no
-tiene componente temporal: el split entre train y test es aleatorio.
+Los datos llegan tal como salen de la fuente. En Predicción de
+accidentalidad la evaluación usa un **corte temporal** (se entrena con
+el pasado y se predice el futuro); en Tasación de diamantes no hay
+componente temporal y el split es aleatorio.
