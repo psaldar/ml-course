@@ -2,6 +2,10 @@
 
 **Clasificación con clases desbalanceadas · 15% de la nota del curso**
 
+**Fecha límite de entrega (leaderboard):** 11 de octubre de 2026, 11:59 PM
+(hora Colombia). Después de esa hora el sistema deja de aceptar nuevas
+entregas para este reto.
+
 ---
 
 ## El problema
