@@ -93,6 +93,7 @@ de ejercicio** sobre el notebook de la sesión.
 | 2 | `sesion_02_sesgo_varianza_arboles_ensamble` | Sesgo-varianza, validación, árboles y ensambles |
 | 3 | `sesion_03_desbalance_series_tiempo` | Desbalance de clases y series de tiempo |
 | 4 | `sesion_04_sistemas_recomendacion` | Sistemas de recomendación |
+| 5 | `sesion_05_reduccion_clustering` | Reducción de dimensionalidad y clustering |
 
 Las siguientes sesiones se agregan a medida que avanza el curso.
 

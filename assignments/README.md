@@ -4,7 +4,7 @@
 
 Los retos son la **nota de seguimiento del curso: 45% en total**, 15%
 cada uno. Uno por fin de semana, y se van liberando progresivamente a
-medida que avanza el curso — acá solo aparece el que ya está disponible.
+medida que avanza el curso.
 
 ## Cómo funcionan
 
@@ -73,6 +73,7 @@ en texto plano).
 |---|---|---|---|---|
 | 1 | [Tasación de diamantes](tasacion-diamantes/) | Regresión, split aleatorio, 43k diamantes | `rmse` | 15% |
 | 2 | [Predicción de accidentalidad](prediccion-accidentalidad-poblado/) | Clasificación desbalanceada (~2% positivos), datos en SQLite | `roc_auc` | 15% |
+| 3 | [Recomendador de películas](recomendador-peliculas/) | Filtrado colaborativo, corte temporal por usuario | `rmse` | 15% |
 
 ### Cada reto tiene dos etapas
 
@@ -88,7 +89,7 @@ validación, análisis de errores e interpretación. **Pesa más que el score**
 — un buen número sin entender de dónde salió no alcanza. El README de cada
 reto trae la rúbrica detallada.
 
-Los datos llegan tal como salen de la fuente. En Predicción de
-accidentalidad la evaluación usa un **corte temporal** (se entrena con
-el pasado y se predice el futuro); en Tasación de diamantes no hay
-componente temporal y el split es aleatorio.
+En los tres, los datos llegan tal como salen de la fuente. En Predicción
+de accidentalidad y Recomendador de películas la evaluación usa un
+**corte temporal** (se entrena con el pasado y se predice el futuro); en
+Tasación de diamantes no hay componente temporal y el split es aleatorio.
